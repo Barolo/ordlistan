@@ -19,7 +19,7 @@ def create_app():
 
     # SQLite, funkar både lokalt och på Render
     app.config['SQLALCHEMY_DATABASE_URI'] = (
-        'postgresql+psycopg2://ordlistan_db_user:YYl2xUTlCHgTBpvsLk55cdvtj8hlDDVo'
+        'postgresql+psycopg://ordlistan_db_user:YYl2xUTlCHgTBpvsLk55cdvtj8hlDDVo'
         '@dpg-d4djggur433s73e4tsf0-a:5432/ordlistan_db'
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
