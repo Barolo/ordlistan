@@ -44,10 +44,6 @@ def create_app():
     from .routes import bp as main_bp
     app.register_blueprint(main_bp)
 
-    # ⭐ Viktigt: skapa tabeller om de inte finns
-    with app.app_context():
-        db.create_all()
-
         # Skapa alla tabeller automatiskt (även i Render)
     with app.app_context():
         db.create_all()
