@@ -5,3 +5,5 @@ Werkzeug==3.0.1
 gunicorn==21.2.0
 python-dotenv==1.0.1
 Flask-Mail==0.10.0
+Flask-Migrate==4.0.5
+SQLAlchemy==2.0.44
