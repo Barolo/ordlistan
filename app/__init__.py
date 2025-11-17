@@ -31,9 +31,9 @@ def create_app():
 
         # Konvertera URL till psycopg2-format
         if database_url.startswith("postgres://"):
-            database_url = database_url.replace("postgres://", "postgresql+psycopg2://")
+            database_url = database_url.replace("postgres://", "postgresql+pg8000://")
         elif database_url.startswith("postgresql://"):
-            database_url = database_url.replace("postgresql://", "postgresql+psycopg2://")
+            database_url = database_url.replace("postgresql://", "postgresql+pg8000://")
 
         app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 
