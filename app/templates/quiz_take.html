@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-content" style="max-width: 700px; margin: 0 auto;">
+
+    <!-- Ljud -->
+    <audio id="win-sound" preload="auto">
+        <source src="{{ url_for('static', filename='sounds/jubel_trim.wav') }}" type="audio/wav">
+    </audio>
+
+    <div class="card dash-card shadow-sm quiz-card">
+
+        <div class="card-header card-header-purple text-center py-3">
+            <h3 class="mb-0">Förhör</h3>
+        </div>
+
+        <div class="card-body text-center">
+
+            <p id="intro" class="text-muted mb-4">
+                Du har valt {{ quiz_data|length }} ord att förhöras på.
+            </p>
+
+            <!-- QUIZ START -->
+            <div id="quiz-area">
+
+                <h4 id="question-word" class="quiz-question mb-4">Laddar...</h4>
+
+                <input type="text"
+                       id="answer"
+                       class="quiz-input mb-3"
+                       placeholder="Skriv översättningen här"
+                       autocomplete="off">
+
+                <button id="submit-answer" class="primary-btn w-100 mb-3 py-2">
+                    Svara
+                </button>
+
+                <div id="feedback" class="quiz-feedback"></div>
+
+                <div class="quiz-progress mt-4">
+                    <div class="quiz-progress-bar-bg">
+                        <div id="progress-bar" class="quiz-progress-bar"></div>
+                    </div>
+
+                    <div class="quiz-stats">
+                        <span><span id="current">0</span> / <span id="total"></span></span>
+                        <span id="score-count" class="quiz-score">Poäng: 0</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RESULT -->
+            <div id="result-section" class="quiz-result" style="display:none;">
+                <h3 class="mb-2">Förhör klart!</h3>
+                <p id="score" class="lead"></p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+/* ================================================
+   SANITISERING – tar bort ! ? ¿ ¡ . , :
+================================================ */
+const sanitize = str =>
+    str.toLowerCase()
+       .replace(/[!¡?¿.,:]/g, "")  
+       .trim();
+
+/* ================================================
+   DATA FRÅN SERVER
+================================================ */
+const raw = {{ quiz_data|tojson|safe }};
+
+if (!raw || raw.length === 0) {
+    document.getElementById("question-word").textContent =
+        "Inga ord hämtades. Kontrollera inställningarna.";
+}
+
+/* Konvertera till frontend-format */
+let quizData = raw.map(item => ({
+    id: item.id,
+    question: item.question,
+    answers: item.answers.map(a => sanitize(a))  // lista med rätta svar
+}));
+
+document.getElementById("total").textContent = quizData.length;
+
+/* ================================================
+   STATE
+================================================ */
+let currentIndex = 0;
+let correctCount = 0;
+
+/* ================================================
+   VISA NÄSTA FRÅGA
+================================================ */
+function loadQuestion() {
+
+    if (currentIndex >= quizData.length) {
+        return finishQuiz();
+    }
+
+    const q = quizData[currentIndex];
+
+    document.getElementById("question-word").textContent = q.question;
+    document.getElementById("answer").value = "";
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("current").textContent = currentIndex + 1;
+
+    const pct = (currentIndex / quizData.length) * 100;
+    document.getElementById("progress-bar").style.width = pct + "%";
+
+    document.getElementById("answer").focus();
+}
+
+/* ================================================
+   HANTERA SVAR
+================================================ */
+function submitAnswer() {
+
+    const userInput = sanitize(document.getElementById("answer").value);
+    const item = quizData[currentIndex];
+    const feedback = document.getElementById("feedback");
+
+    feedback.classList.remove("correct", "wrong");
+
+    if (item.answers.includes(userInput)) {
+
+        feedback.textContent = "Rätt!";
+        feedback.classList.add("correct");
+
+        correctCount++;
+        document.getElementById("score-count").textContent = "Poäng: " + correctCount;
+
+    } else {
+
+        const pretty = item.answers.join(", ");
+        feedback.textContent = `Fel – möjliga svar: ${pretty}`;
+        feedback.classList.add("wrong");
+    }
+
+    currentIndex++;
+    setTimeout(loadQuestion, 550);
+}
+
+/* ================================================
+   NÄR FÖRHÖRET ÄR KLART
+================================================ */
+function finishQuiz() {
+
+    document.getElementById("quiz-area").style.display = "none";
+
+    const rs = document.getElementById("result-section");
+    rs.style.display = "block";
+
+    document.getElementById("score").textContent =
+        `Du hade ${correctCount} rätt av ${quizData.length}.`;
+
+    /* --- Konfetti + ljud vid full pott --- */
+    if (correctCount === quizData.length && quizData.length > 0) {
+        const win = document.getElementById("win-sound");
+        win.play().catch(() => {});
+
+        const end = Date.now() + 2000;
+        (function frame() {
+            confetti({ particleCount: 6, angle: 60, spread: 300 });
+            confetti({ particleCount: 6, angle: 120, spread: 300 });
+            if (Date.now() < end) requestAnimationFrame(frame);
+        })();
+    }
+
+    /* --- KNAPPAR --- */
+    const homeBtn = document.createElement("a");
+    homeBtn.href = "/";
+    homeBtn.className = "primary-btn w-100 mt-3";
+    homeBtn.textContent = "Hem";
+    rs.appendChild(homeBtn);
+
+    const newBtn = document.createElement("a");
+    newBtn.href = "/quiz";
+    newBtn.className = "primary-btn w-100 mt-3";
+    newBtn.textContent = "Starta nytt förhör";
+    rs.appendChild(newBtn);
+
+    const redoBtn = document.createElement("button");
+    redoBtn.className = "primary-btn w-100 mt-3";
+    redoBtn.textContent = "Gör om förhöret";
+    redoBtn.addEventListener("click", () => location.reload());
+    rs.appendChild(redoBtn);
+}
+
+/* ================================================
+   EVENTS
+================================================ */
+document.getElementById("submit-answer").addEventListener("click", submitAnswer);
+
+document.getElementById("answer").addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        submitAnswer();
+    }
+});
+
+/* Starta */
+loadQuestion();
+</script>
+
+{% endblock %}

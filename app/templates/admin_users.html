@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<title>Alla användare</title>
+<style>
+table { border-collapse: collapse; width: 100%; max-width: 600px; margin: 20px auto; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+th { background: #6c63ff; color: white; }
+</style>
+</head>
+<body>
+<h1 style="text-align:center;">Lista över användare</h1>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Användarnamn</th>
+    <th>Email</th>
+  </tr>
+  {% for user in users %}
+  <tr>
+    <td>{{ user.id }}</td>
+    <td>{{ user.username }}</td>
+    <td>{{ user.email }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<a href="{{ url_for('main.home') }}" style="display:block; text-align:center;">Tillbaka</a>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-content" style="max-width: 500px; margin: 0 auto;">
+
+    <h2 class="mb-3 text-center">Ändra namn på ordlista</h2>
+
+    <!-- Flashmeddelanden -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="card dash-card shadow-sm">
+
+        <div class="card-header card-header-purple">
+            <h5 class="mb-0">Redigera ordlista</h5>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <label class="form-label fw-semibold">Nytt namn</label>
+
+                <input type="text"
+                       name="list_name"
+                       class="form-control form-control-lg"
+                       value="{{ wordlist.name }}"
+                       required>
+
+                <button type="submit" class="primary-btn w-100 mt-4">
+                    Spara ändringar
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <a href="{{ url_for('main.view_lists') }}"
+       class="btn btn-white w-100 mt-3">
+        Avbryt
+    </a>
+
+</div>
+{% endblock %}

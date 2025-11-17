@@ -1,0 +1,726 @@
+/* ---------------------------------------------------
+   1. GLOBAL VARIABLES
+--------------------------------------------------- */
+:root {
+    --purple-main: #9962ff;
+    --purple-dark: #7d4fe0;
+    --purple-light: #eedeff;
+    --white: #ffffff;
+    --danger: #ff4d4d;
+    --radius: 14px;
+}
+
+/* ---------------------------------------------------
+   2. GLOBAL LAYOUT
+--------------------------------------------------- */
+body {
+    background-color: #f8f8ff;
+    margin: 0;
+    padding-top: 70px;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.main-content {
+    margin-top: 20px;
+}
+
+/* ---------------------------------------------------
+   3. TOPBAR
+--------------------------------------------------- */
+.app-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: var(--purple-light);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 1000;
+}
+
+.top-left,
+.top-center,
+.top-right {
+    display: flex;
+    align-items: center;
+}
+
+.top-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.top-right {
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.topbar-logo {
+    height: 54px;
+    width: auto;
+    object-fit: contain;
+}
+
+.topbar-status {
+    font-size: 1.25rem;
+    color: var(--purple-dark);
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
+.topbar-logout {
+    font-size: 1.25rem;
+    color: var(--purple-dark);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.topbar-logout:hover {
+    background-color: rgba(153, 98, 255, 0.15);
+    color: var(--purple-main);
+}
+
+.topbar-logout-icon {
+    font-size: 1.45rem;
+    color: var(--purple-dark);
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.topbar-logout-icon:hover {
+    background-color: rgba(153, 98, 255, 0.15);
+}
+
+.topbar-logout-icon,
+.topbar-logout-icon:hover,
+.topbar-logout-icon:focus,
+.topbar-logout-icon:active {
+    text-decoration: none !important;
+    border: none !important;
+}
+
+.desktop-only { display: flex !important; }
+.mobile-only { display: none !important; }
+
+@media (max-width: 576px) {
+    .desktop-only { display: none !important; }
+    .mobile-only { display: flex !important; align-items: center; }
+    .top-center { display: none !important; }
+}
+
+/* ---------------------------------------------------
+   4. CARDS
+--------------------------------------------------- */
+.card {
+    border: none;
+    border-radius: var(--radius);
+}
+
+.card-header-purple {
+    background-color: var(--purple-main);
+    color: var(--white);
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+/* ---------------------------------------------------
+   5. BUTTONS
+--------------------------------------------------- */
+.btn-primary,
+.btn-success {
+    background-color: var(--purple-main) !important;
+    border: none !important;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+    background-color: var(--purple-dark) !important;
+}
+
+.primary-btn {
+    background-color: var(--purple-main);
+    border: none;
+    color: white;
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+}
+
+.primary-btn:hover {
+    background-color: var(--purple-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+/* Statistik-knapp — samma stil som quiz-start-btn men full bredd */
+.stats-btn {
+    display: flex;
+    margin-top: -14px;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;                     /* full bredd */
+    background: white;
+    border: 1.8px solid #ddd4ff;
+    border-radius: 14px;
+
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--purple-dark);       /* lila text */
+
+    padding: 10px 14px;
+    min-height: 48px;                /* samma höjd som listkorten */
+
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: 0.2s ease;
+}
+
+.stats-btn:hover {
+    background: #f4edff;             /* lila hover-ton */
+    border-color: var(--purple-main);
+    color: var(--purple-dark);
+}
+
+.btn-white {
+    background-color: var(--white);
+    border: 2px solid var(--purple-main);
+    color: var(--purple-main);
+    font-weight: 600;
+}
+
+.btn-white:hover {
+    background-color: var(--purple-main);
+    color: white;
+}
+
+.btn-danger {
+    background: white !important;
+    border: 2px solid var(--danger) !important;
+    color: var(--danger) !important;
+}
+
+.btn-danger:hover {
+    background: var(--danger) !important;
+    color: white !important;
+}
+
+/* -------------------------------------------
+   Create New List Button (Dashboard)
+------------------------------------------- */
+.create-list-btn {
+    display: block;
+    width: 100%;
+    background: white;
+    border: 1px solid var(--purple-main);
+    color: var(--purple-main);
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.25s ease;
+    margin-top: 8px;
+}
+
+.create-list-btn:hover {
+    background: var(--purple-main);
+    color: white;
+    border-style: solid;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ---------------------------------------------------
+   6. TABLES
+--------------------------------------------------- */
+table.table th { font-weight: 600; }
+
+table.table a {
+    color: var(--purple-main);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+table.table a:hover {
+    text-decoration: underline;
+}
+
+/* ---------------------------------------------------
+   7. FLASH MESSAGES
+--------------------------------------------------- */
+.flash {
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.flash.error { background: #ffdddd; color: #b30000; }
+.flash.success { background: #ddffea; color: #006622; }
+.flash.info { background: #e6e6ff; color: #4d4dff; }
+
+/* ---------------------------------------------------
+   8. INPUTS
+--------------------------------------------------- */
+.form-control:focus,
+.auth-input:focus {
+    border-color: var(--purple-main);
+    box-shadow: 0 0 6px rgba(108,99,255,0.25);
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+}
+
+/* ---------------------------------------------------
+   9. AUTH PAGES
+--------------------------------------------------- */
+.auth-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.auth-subtitle {
+    color: #666;
+    margin-top: -8px;
+}
+
+.auth-background {
+    background: linear-gradient(135deg, var(--purple-main), #a29bfe);
+    min-height: 100vh;
+}
+
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 70px;
+}
+
+.auth-card {
+    background-color: white;
+    padding: 40px 30px;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.login-logo img {
+    width: 110px;
+    margin-bottom: 15px;
+}
+
+.auth-input-wrapper {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+.auth-input {
+    padding-left: 42px !important;
+}
+
+.auth-link {
+    color: var(--purple-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.auth-link:hover {
+    color: var(--purple-main);
+    text-decoration: underline;
+}
+
+/* ---------------------------------------------------
+   10. SELECTABLE CARDS
+--------------------------------------------------- */
+.selectable-card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1.8px solid #ddd4ff;
+    padding: 8px 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.20s ease;
+    user-select: none;
+    margin: 10px 0;
+    min-height: 44px;
+    position: relative;
+}
+
+.selectable-card:first-of-type {
+    margin-top: 0;
+}
+
+.selectable-card:hover {
+    background: #f4edff;
+    border-color: var(--purple-main);
+}
+
+.selectable-card input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.selectable-checkmark {
+    height: 22px;
+    width: 22px;
+    border-radius: 6px;
+    border: 2px solid #bfaeff;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.20s ease;
+    flex-shrink: 0;
+}
+
+.selectable-checkmark::after {
+    content: "✔";
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: 0.20s ease;
+}
+
+.selectable-card input:checked ~ .selectable-checkmark {
+    background: var(--purple-main);
+    border-color: var(--purple-main);
+}
+
+.selectable-card input:checked ~ .selectable-checkmark::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.selectable-card input:checked ~ .selectable-text {
+    font-weight: 600;
+    color: var(--purple-dark);
+}
+
+.selectable-text {
+    font-size: 1rem;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    line-height: 1.25;
+}
+
+/* ---------------------------------------------------
+   11. WORDLIST WRAPPER
+--------------------------------------------------- */
+#wordlist-wrapper {
+    overflow: hidden;
+    max-height: 240px;
+    transition: max-height 0.35s ease;
+}
+
+#wordlist-wrapper.expanded {
+    max-height: 1000px;
+}
+
+.hidden-list {
+    display: none;
+}
+
+.hidden-list.show {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* ---------------------------------------------------
+   12. SHOW MORE BUTTON
+--------------------------------------------------- */
+.show-more-btn {
+    background: none;
+    border: none;
+    padding: 3px 0;
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--purple-main);
+    cursor: pointer;
+    text-align: left;
+}
+
+.show-more-btn:hover {
+    text-decoration: underline;
+}
+
+/* ---------------------------------------------------
+   13. SLIDER
+--------------------------------------------------- */
+.slider-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    background: #e8e0ff;
+    border-radius: 10px;
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: var(--purple-main);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    background: var(--purple-dark);
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: var(--purple-main);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+.slider-value {
+    font-weight: 700;
+    color: var(--purple-main);
+    min-width: 28px;
+    text-align: center;
+}
+
+/* ---------------------------------------------------
+   14. Wordlist
+--------------------------------------------------- */
+/* Make dashboard wordlist cards clickable */
+.dash-wordlist-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.dash-wordlist-card {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;      /* mindre padding */
+    border: 1.8px solid #ddd4ff;
+    border-radius: 14px;
+    background: white;
+    margin-bottom: 10px;
+    min-height: 48px;        /* mindre höjd än 54 */
+    cursor: pointer;
+    transition: 0.2s ease;
+    text-decoration: none;   /* för att ta bort underline */
+}
+
+.dash-wordlist-card:hover {
+    background: #f4edff;
+    border-color: var(--purple-main);
+}
+
+.dash-wordlist-card .selectable-text {
+    font-size: 1rem !important;
+}
+
+/* Hover effect for clickable cards */
+.dash-wordlist-link:hover {
+    background: #f4edff;
+    border-color: var(--purple-main);
+}
+
+/* Gör "Skapa ny lista" identisk med andra ordlistkort */
+.dash-wordlist-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--purple-dark);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Säkerställ samma hover som vanliga kort */
+.dash-wordlist-add:hover {
+    background: #f4edff;
+    border-color: var(--purple-main);
+    color: var(--purple-dark);
+}
+
+/* ---------------------------------------------------
+   15. QUIZ CARD
+--------------------------------------------------- */
+/* Wrapper för höger/vänster layout */
+.quiz-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+}
+
+.quiz-card .card-body {
+    padding: 12px 18px !important;
+}
+
+.quiz-card .text-muted {
+    color: #000000 !important;
+}
+
+/* Vänsterkolumn */
+.quiz-left {
+    flex: 1;
+}
+
+/* Högerkolumn med bilden */
+.quiz-right {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Spotlight på gubben */
+.quiz-chill-img {
+    height: 100px;
+    width: auto;
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(0,0,0,0.06));
+}
+
+/* Knappjustering */
+.quiz-btn {
+    margin-top: 10px;
+    font-size: 1rem;
+    padding: 14px 22px;
+}
+
+.quiz-btn,
+.quiz-btn:hover,
+.quiz-btn:focus,
+.quiz-btn:active {
+    text-decoration: none !important;
+}
+
+.quiz-start-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+    border: 1.8px solid #ddd4ff;
+    border-radius: 14px;
+
+    /* --- TEXT --- */
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--purple-dark);   /* Lila text */
+
+    /* --- DIMENSIONER --- */
+    min-height: 48px;            /* Matchar ordlistkorten */
+    padding: 10px 14px;
+    width: 400px;   /* Justerbar bredd */
+    
+    cursor: pointer;
+    text-decoration: none !important;
+    transition: 0.2s ease;
+}
+
+/* Hover-stil */
+.quiz-start-btn:hover {
+    background: #f4edff;
+    border-color: var(--purple-main);
+    color: var(--purple-dark);
+}
+
+/* Mobilanpassning */
+@media (max-width: 576px) {
+    .quiz-body {
+        flex-direction: column;
+        text-align: center;
+        gap: 18px;
+    }
+
+    .quiz-start-btn {
+        width: 100%;          /* full bredd */
+        max-width: 100%;      /* säkerställ inga overflow-problem */
+        padding: 14px 18px;   /* lite kompaktare padding */
+    }
+
+    .quiz-right {
+        justify-content: center;
+    }
+
+    .quiz-chill-img {
+        height: 50px;
+    }
+}
+
+/* ---------------------------------------------------
+   EXTRA KOD SOM MÅSTE SORTERAS
+--------------------------------------------------- */
+
+/* Tvinga dolda listor att verkligen vara dolda som start */
+.selectable-card.hidden-list {
+    display: none !important;
+}
+
+/* När vi visar fler */
+.selectable-card.hidden-list.show {
+    display: flex !important;
+}
+
+#resultsTable {
+    margin-bottom: 0 !important;
+}
+
+#showMoreBtn {
+    color: var(--purple-dark);   /* eller "black" om du vill */
+    font-weight: 400;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

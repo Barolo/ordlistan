@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+<div class="main-content" style="max-width: 900px; margin: 0 auto;">
+
+    <!-- PROFILHEADER -->
+    <div class="profile-header text-center mb-5">
+        <h2 class="mb-1 fw-bold">{{ user.username }}</h2>
+        <p class="text-muted">{{ user.email }}</p>
+    </div>
+
+    <!-- STATISTIK-KORT -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm text-center">
+                <div class="card-body py-3">
+                    <h2 class="stat-number" id="total-lists">{{ total_lists }}</h2>
+                    <p class="stat-label">Ordlistor</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm text-center">
+                <div class="card-body py-3">
+                    <h2 class="stat-number" id="total-words">{{ total_words }}</h2>
+                    <p class="stat-label">Ord totalt</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card stat-card shadow-sm text-center">
+                <div class="card-body py-3">
+                    <h2 class="stat-number" id="total-quizzes">{{ total_quizzes }}</h2>
+                    <p class="stat-label">Förhör genomförda</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KURVA ÖVER RESULTAT -->
+    <div class="card shadow-sm mb-5">
+        <div class="card-header card-header-purple">
+            <h4 class="mb-0 text-white">Resultat över tid</h4>
+        </div>
+
+        <div class="card-body">
+            {% if quiz_scores and quiz_scores|length > 0 %}
+                <canvas id="quizChart" height="100"></canvas>
+            {% else %}
+                <p class="text-muted">Inga resultat ännu.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- SVÅRASTE ORDEN -->
+    <div class="card shadow-sm">
+        <div class="card-header card-header-purple">
+            <h4 class="mb-0 text-white">Svåraste orden</h4>
+        </div>
+
+        <div class="card-body">
+            {% if hardest_words and hardest_words|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-hover" id="hardestWordsTable">
+                    <thead>
+                        <tr>
+                            <th>Ord</th>
+                            <th>Rätt</th>
+                            <th>Fel</th>
+                            <th>Senast fel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for word in hardest_words %}
+                        <tr>
+                            <td>{{ word.original }}</td>
+                            <td>{{ word.correct_count or 0 }}</td>
+                            <td>{{ word.wrong_count or 0 }}</td>
+                            <td>{{ word.last_wrong }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <p class="text-muted">Du har ännu inga misslyckade ord.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+<!-- CHART.JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+{% if quiz_scores and quiz_scores|length > 0 %}
+const ctx = document.getElementById('quizChart');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ quiz_labels|tojson }},
+        datasets: [{
+            label: 'Antal rätt',
+            data: {{ quiz_scores|tojson }},
+            borderWidth: 3,
+            tension: 0.3,
+            fill: false,
+            borderColor: '#6c63ff',
+            pointBackgroundColor: '#6c63ff',
+            pointRadius: 4,
+            pointHoverRadius: 6,
+        }]
+    },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    }
+});
+{% endif %}
+</script>
+
+{% endblock %}
