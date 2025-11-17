@@ -29,11 +29,11 @@ def create_app():
             print("⚠️ VARNING: DATABASE_URL saknas! Använder SQLite temporärt.")
             database_url = "sqlite:///site.db"
 
-        # Railway → SQLAlchemy konvertering
+        # Konvertera URL till psycopg2-format
         if database_url.startswith("postgres://"):
-            database_url = database_url.replace("postgres://", "postgresql+psycopg://")
+            database_url = database_url.replace("postgres://", "postgresql+psycopg2://")
         elif database_url.startswith("postgresql://"):
-            database_url = database_url.replace("postgresql://", "postgresql+psycopg://")
+            database_url = database_url.replace("postgresql://", "postgresql+psycopg2://")
 
         app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 
