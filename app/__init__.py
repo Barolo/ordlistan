@@ -19,9 +19,11 @@ def create_app():
     # ------------------- CONFIG -------------------
     app.secret_key = os.urandom(24)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://flaskuser:flaskpass@localhost/flask_users'
+    # ✅ BYT TILL SQLITE – FUNGERAR BÅDE LOKALT OCH PÅ RENDER
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+    # ------------------- MAIL CONFIG -------------------
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
@@ -39,7 +41,6 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        """Hur Flask-Login laddar en användare."""
         return User.query.get(int(user_id))
 
     # ------------------- SERIALIZER -------------------
@@ -50,3 +51,4 @@ def create_app():
     app.register_blueprint(main_bp)
 
     return app
+
