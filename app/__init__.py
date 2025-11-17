@@ -18,8 +18,10 @@ def create_app():
     app.secret_key = os.urandom(24)
 
     # SQLite, funkar både lokalt och på Render
-    db_path = os.path.join('/var/data', 'site.db')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+    app.config['SQLALCHEMY_DATABASE_URI'] = (
+        'postgresql+psycopg2://ordlistan_db_user:YYl2xUTlCHgTBpvsLk55cdvtj8hlDDVo'
+        '@dpg-d4djggur433s73e4tsf0-a:5432/ordlistan_db'
+    )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Mail
