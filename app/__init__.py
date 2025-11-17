@@ -7,23 +7,21 @@ from .extensions import db, mail, migrate
 from .models import User  # viktigt att detta importeras efter db
 
 
-# ------------------- LOGIN MANAGER -------------------
 login_manager = LoginManager()
-login_manager.login_view = 'main.login'   # vart användaren skickas om de inte är inloggade
+login_manager.login_view = 'main.login'
 
 
-# ------------------- APP FACTORY -------------------
 def create_app():
     app = Flask(__name__)
 
-    # ------------------- CONFIG -------------------
+    # CONFIG
     app.secret_key = os.urandom(24)
 
-    # ✅ BYT TILL SQLITE – FUNGERAR BÅDE LOKALT OCH PÅ RENDER
+    # SQLite, funkar både lokalt och på Render
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # ------------------- MAIL CONFIG -------------------
+    # Mail
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
@@ -31,24 +29,23 @@ def create_app():
     app.config['MAIL_USERNAME'] = 'nygander.user@gmail.com'
     app.config['MAIL_PASSWORD'] = 'vdpstiqklryzzvwh'
 
-    # ------------------- INIT EXTENSIONS -------------------
+    # Init extensions
     db.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
-
-    # ------------------- LOGIN MANAGER INIT -------------------
     login_manager.init_app(app)
 
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
 
-    # ------------------- SERIALIZER -------------------
     app.serializer = URLSafeTimedSerializer(app.secret_key)
 
-    # ------------------- BLUEPRINTS -------------------
     from .routes import bp as main_bp
     app.register_blueprint(main_bp)
 
-    return app
+    # ⭐ Viktigt: skapa tabeller om de inte finns
+    with app.app_context():
+        db.create_all()
 
+    return app
