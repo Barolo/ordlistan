@@ -362,8 +362,11 @@ def quiz_take():
                 answers = all_answer_forms_translation
 
         quiz_data.append({
+            "id": w.id,                                # behövs för statistiken
             "question": question,
-            "answers": answers
+            "answers": answers,
+            "wrong_count": w.wrong_count or 0,         # behövs för viktning i JS
+            "correct_count": w.correct_count or 0
         })
 
     return render_template("quiz_take.html", quiz_data=quiz_data)
