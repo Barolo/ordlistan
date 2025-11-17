@@ -23,17 +23,18 @@ def create_app():
     # DATABASE (Railway Postgres eller lokal SQLite)
     # -------------------------------------------------
     if os.environ.get("RAILWAY_ENVIRONMENT"):
-        # === Railway Mode ===
-        database_url = os.environ.get("DATABASE_URL")  # sätts automatiskt av Railway
+        # Railway mode – DATABASE_URL kommer direkt från Railway
+        database_url = os.environ.get("DATABASE_URL")
 
-        # Railway behöver psycopg-format
-        app.config['SQLALCHEMY_DATABASE_URI'] = database_url.replace(
-            "postgres://", "postgresql+psycopg://"
-        )
+        # Konvertera formatet om det börjar med postgres://
+        if database_url.startswith("postgres://"):
+            database_url = database_url.replace("postgres://", "postgresql+psycopg://")
+
+        app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 
     else:
-        # === Lokal utveckling ===
-        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
+        # Lokal utveckling (din gamla databas)
+        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///instance/site.db"
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -68,7 +69,7 @@ def create_app():
     app.register_blueprint(main_bp)
 
     # -------------------------------------------------
-    # AUTO-CREATE TABLES (Railway + lokalt)
+    # AUTO-CREATE TABLES (Railway och lokalt)
     # -------------------------------------------------
     with app.app_context():
         db.create_all()
