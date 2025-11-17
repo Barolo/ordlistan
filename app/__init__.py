@@ -31,9 +31,10 @@ def create_app():
 
             # Railway → SQLAlchemy conversion
             if database_url.startswith("postgres://"):
-                database_url = database_url.replace("postgres://", "postgresql+psycopg://")
+                database_url = database_url.replace("postgres://", "postgresql+pg8000://")
             elif database_url.startswith("postgresql://"):
-                database_url = database_url.replace("postgresql://", "postgresql+psycopg://")
+                database_url = database_url.replace("postgresql://", "postgresql+pg8000://")
+
 
         app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 
