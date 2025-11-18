@@ -6,6 +6,8 @@ from itsdangerous import URLSafeTimedSerializer
 from .extensions import db, mail, migrate
 from .models import User
 
+from dotenv import load_dotenv
+load_dotenv()
 
 login_manager = LoginManager()
 login_manager.login_view = "main.login"
@@ -18,7 +20,7 @@ def create_app():
     app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
     # DATABASE: Railway Postgres eller lokal SQLite
-    if os.environ.get("RAILWAY_ENVIRONMENT"):
+    if os.environ.get("DATABASE_URL"):
         database_url = os.environ.get("DATABASE_URL")
 
         if not database_url:

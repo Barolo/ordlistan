@@ -1,0 +1,3 @@
+"id","username","email","password"
+1,"Barolo","rikard.nygander@gmail.com","scrypt:32768:8:1$YixSEx4DoiE9SmQs$9f57eab7e8ca6fe75b420cb4a3deed48afc93fccc074b8174e046e0885f8c7838056982bd47c4a9f4845b5c585a3418d6efb9ca23429d9fbba3db6929f470329"
+2,"Emma","nyganderemma@gmail.com","scrypt:32768:8:1$AZDrdsHgFzNSmtae$e1cd632a0eec0a72032bcd3b32d9a8cf76145c81bc9ec8795fabaef60f8558b10e2eaad0b28079eacf26b28ea8c91bb1506b20202143a80a6eac238807c8354b"
