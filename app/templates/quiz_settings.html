@@ -33,11 +33,13 @@
                         <div id="wordlist-wrapper">
 
                             {% for wl in wordlists %}
+                                {% set full_label = wl.name ~ " (" ~ wl.words|length ~ " ord)" %}
                                 <label class="selectable-card single-list-card {% if loop.index > 4 %}hidden-list{% endif %}">
                                     <input type="checkbox" class="single-list" name="lists" value="{{ wl.id }}">
                                     <span class="selectable-checkmark"></span>
+
                                     <span class="selectable-text">
-                                        {{ wl.name }}&nbsp;<span class="text-muted">({{ wl.words|length }} ord)</span>
+                                        {{ wl.name | short_label(28) }} <span class="text-muted">({{ wl.words|length }} ord)</span>
                                     </span>
                                 </label>
                             {% endfor %}
@@ -103,8 +105,9 @@
 
 
 <!-- ===================== CLEAN + WORKING JS ===================== -->
+{% block scripts %}
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
 
     /* ----------------------------------------------------------
        ELEMENTS
@@ -137,15 +140,12 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ----------------------------------------------------------
        2. LOGIK FÖR "Alla listor" <-> Enskilda listor
     ---------------------------------------------------------- */
-
-    // När "Alla listor" väljs ⇒ avmarkera andra
     allLists.addEventListener("change", () => {
         if (allLists.checked) {
             singleLists.forEach(cb => cb.checked = false);
         }
     });
 
-    // När en vanlig lista väljs ⇒ avmarkera "Alla listor"
     singleLists.forEach(cb => {
         cb.addEventListener("change", () => {
             if (cb.checked) {
@@ -179,5 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+{% endblock %}
 
 {% endblock %}
+

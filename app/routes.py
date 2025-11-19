@@ -13,6 +13,17 @@ from flask_mail import Message
 
 bp = Blueprint('main', __name__)
 
+# --- Filter för att korta ner listnamn ---
+@bp.app_template_filter("short_label")
+def short_label(text, length=22):
+    if not text:
+        return ""
+    # Om texten är kortare än limit, returnera som vanligt
+    if len(text) <= length:
+        return text
+    # Annars kapa och lägg till "..."
+    return text[:length - 3] + "..."
+
 def get_serializer():
     """Returnerar serializer dynamiskt via current_app."""
     return URLSafeTimedSerializer(current_app.secret_key)
