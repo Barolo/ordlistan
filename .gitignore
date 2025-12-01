@@ -1,0 +1,17 @@
+# Environments
+.env
+instance/
+__pycache__/
+*.pyc
+
+# Local DB
+*.db
+db/
+users.db
+app.db
+site.db
+
+# IDE / OS Files
+.vscode/
+.idea/
+.DS_Store
