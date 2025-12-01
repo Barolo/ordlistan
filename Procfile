@@ -1,1 +1,1 @@
-web: gunicorn "app:create_app()" --timeout 120
+web: flask db upgrade
