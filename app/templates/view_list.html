@@ -14,7 +14,81 @@
       {% endif %}
     {% endwith %}
 
-    <!-- ORDLISTA TABELL -->
+
+<!-- ================================
+     FUNKTIONS-KORT (kompakt rad)
+================================= -->
+<div class="card dash-card shadow-sm mb-4">
+
+    <div class="card-header card-header-purple">
+        <h5 class="mb-0">Funktioner</h5>
+    </div>
+
+    <div class="card-body">
+
+        <div class="function-row">
+
+            <!-- Starta förhör -->
+            <a href="{{ url_for('main.quiz_settings') }}?lists={{ wordlist.id }}"
+               class="mini-select-card">
+                <span class="mini-icon">▶️</span>
+                <span class="mini-text">Starta förhör</span>
+            </a>
+
+            <!-- Redigera lista -->
+            <a href="{{ url_for('main.edit_list', list_id=wordlist.id) }}"
+               class="mini-select-card">
+                <span class="mini-icon">✏️</span>
+                <span class="mini-text">Ändra namn</span>
+            </a>
+
+            <!-- Dela lista – inaktiv -->
+            <div class="mini-select-card disabled">
+                <span class="mini-icon">🔗</span>
+                <span class="mini-text">Dela lista</span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+    <!-- ================================
+         LÄGG TILL NYTT ORD
+    ================================= -->
+    <div class="card dash-card shadow-sm mb-4">
+
+        <div class="card-header card-header-purple">
+            <h5 class="mb-0">Lägg till nytt ord</h5>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST" action="{{ url_for('main.view_list', list_id=wordlist.id) }}">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control"
+                               name="original" placeholder="Original" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control"
+                               name="translation" placeholder="Översättning" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="add-word-btn w-100 mt-3">
+                    Lägg till ord
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- ================================
+         ORDLISTA TABELL
+    ================================= -->
     {% if wordlist.words %}
     <div class="card dash-card shadow-sm mb-4">
 
@@ -25,7 +99,7 @@
         <div class="card-body">
 
             <div class="table-responsive">
-                <table class="table table-hover align-middle">
+                <table class="table table-hover align-middle wordlist-table">
                     <thead>
                         <tr>
                             <th>Original</th>
@@ -42,23 +116,28 @@
 
                             <td class="text-end">
 
-                                <!-- Redigera-knapp -->
-                                <a href="{{ url_for('main.edit_word', word_id=word.id, list_id=wordlist.id) }}"
-                                   class="btn btn-sm btn-white me-1">
-                                    Redigera
-                                </a>
+                                <div class="word-action-buttons">
 
-                                <!-- Ta bort-knapp -->
-                                <form method="POST"
-                                      action="{{ url_for('main.delete_word', word_id=word.id, list_id=wordlist.id) }}"
-                                      style="display:inline;"
-                                      onsubmit="return confirm('Är du säker på att du vill ta bort ordet?');">
+                                    <!-- Redigera -->
+                                    <a href="{{ url_for('main.edit_word', word_id=word.id, list_id=wordlist.id) }}"
+                                    class="mini-action-btn">
+                                        <span class="mini-icon">✏️</span>
+                                        <span class="btn-label">Redigera ord</span>
+                                    </a>
 
-                                    <button type="submit"
-                                            class="btn btn-sm btn-delete">
-                                        Ta bort
-                                    </button>
-                                </form>
+                                    <!-- Ta bort -->
+                                    <form method="POST"
+                                        action="{{ url_for('main.delete_word', word_id=word.id, list_id=wordlist.id) }}"
+                                        style="display:inline;"
+                                        onsubmit="return confirm('Är du säker på att du vill ta bort ordet?');">
+
+                                        <button type="submit" class="mini-action-btn">
+                                            <span class="mini-icon">🗑️</span>
+                                            <span class="btn-label">Ta bort</span>
+                                        </button>
+                                    </form>
+
+                                </div>
 
                             </td>
                         </tr>
@@ -69,9 +148,11 @@
             </div>
 
             <!-- Visa fler-knapp -->
-            <button id="toggle-rows-btn" class="btn btn-toggle w-100 mt-3">
-                Visa alla ord
-            </button>
+            <div class="toggle-wrapper">
+                <button id="toggle-rows-btn" class="toggle-btn">
+                    Visa alla ord
+                </button>
+            </div>
 
         </div>
     </div>
@@ -81,39 +162,9 @@
     {% endif %}
 
 
-    <!-- LÄGG TILL NYTT ORD -->
-    <div class="card dash-card shadow-sm mb-4">
-
-        <div class="card-header card-header-purple">
-            <h5 class="mb-0">Lägg till nytt ord</h5>
-        </div>
-
-        <div class="card-body">
-
-            <form method="POST" action="{{ url_for('main.view_list', list_id=wordlist.id) }}">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control"
-                               name="original" placeholder="Original (t.ex. engelska)" required>
-                    </div>
-
-                    <div class="col-md-6">
-                        <input type="text" class="form-control"
-                               name="translation" placeholder="Översättning (t.ex. svenska)" required>
-                    </div>
-                </div>
-
-                <button type="submit" class="primary-btn w-100 mt-3">
-                    Lägg till ord
-                </button>
-            </form>
-
-        </div>
-    </div>
-
-    <!-- Tillbaka-knapp -->
-    <a href="{{ url_for('main.view_lists') }}" class="btn btn-white">
-        Tillbaka till mina ordlistor
+    <!-- Till dashboard -->
+    <a href="{{ url_for('main.home') }}" class="btn btn-white">
+        ← Till dashboard
     </a>
 
 </div>

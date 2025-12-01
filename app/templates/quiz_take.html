@@ -149,6 +149,32 @@ function submitAnswer() {
     setTimeout(loadQuestion, 550);
 }
 
+/* === Skicka resultat till backend === */
+function sendResults() {
+
+    const data = new FormData();
+    data.append("correct", correctCount);
+    data.append("total", quizData.length);
+
+    // skapa answers-array (tillfällig variant)
+    const answersPayload = quizData.map((q, i) => ({
+        id: q.id,
+        correct: i < correctCount
+    }));
+
+    data.append("answers", JSON.stringify(answersPayload));
+
+    fetch("/quiz/finish", {
+        method: "POST",
+        body: data
+    })
+    .then(r => r.json())
+    .then(res => {
+        console.log("STATISTIK SPARAD", res);
+    })
+    .catch(err => console.error("Fel vid sparning:", err));
+}
+
 /* ================================================
    NÄR FÖRHÖRET ÄR KLART
 ================================================ */
@@ -161,6 +187,7 @@ function finishQuiz() {
 
     document.getElementById("score").textContent =
         `Du hade ${correctCount} rätt av ${quizData.length}.`;
+    sendResults();
 
     /* --- Konfetti + ljud vid full pott --- */
     if (correctCount === quizData.length && quizData.length > 0) {

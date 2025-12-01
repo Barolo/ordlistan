@@ -66,7 +66,7 @@ body {
 }
 
 .topbar-status {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     color: var(--purple-dark);
     font-weight: 600;
     margin: 0;
@@ -74,7 +74,7 @@ body {
 }
 
 .topbar-logout {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     color: var(--purple-dark);
     font-weight: 600;
     text-decoration: none;
@@ -151,7 +151,7 @@ body {
     color: white;
     padding: 14px 18px;
     border-radius: 14px;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
     width: 100%;
     transition: all 0.2s;
@@ -216,6 +216,7 @@ body {
     background: var(--danger) !important;
     color: white !important;
 }
+
 
 /* -------------------------------------------
    Create New List Button (Dashboard)
@@ -727,4 +728,180 @@ input[type=range]::-moz-range-thumb {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* =======================================================
+   1. FUNKTIONSKNAPPAR (48px) – samma stil som dashboard
+======================================================= */
+.function-row {
+    display: flex;
+    gap: 10px;
+}
+
+.mini-select-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    height: 48px;
+    padding: 0 14px;
+
+    background: white;
+    border: 1.8px solid #ddd4ff;
+    border-radius: 14px;
+
+    color: black;
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: none !important;
+
+    cursor: pointer;
+    transition: 0.20s ease;
+}
+
+.mini-select-card:hover {
+    background: #f4edff;
+    border-color: var(--purple-main);
+}
+
+/* Ikon i funktionskortet */
+.mini-select-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Disabled */
+.mini-select-card.disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.mini-select-card.disabled:hover {
+    background: white;
+    border-color: #ddd4ff;
+}
+
+/* =======================================================
+   2. ORD-KNAPPAR (kompakta ~32–36px höjd)
+   Samma känsla som selectable-card men mindre
+======================================================= */
+
+.mini-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    background: white;
+    border: 1.8px solid #ddd4ff;
+    border-radius: 10px;
+
+    padding: 4px 10px;
+    height: 32px;
+
+    font-size: 0.9rem;
+    font-weight: 400 !important;
+    color: black !important;
+    cursor: pointer;
+    transition: 0.20s ease;
+    text-decoration: none !important;
+}
+
+.mini-action-btn:hover {
+    background: #f4edff;
+    border-color: var(--purple-main);
+}
+
+.mini-icon {
+    font-size: 1rem;  /* ikonstorlek */
+    line-height: 1;   /* centrerar vertikalt */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mobil – endast ikon */
+@media (max-width: 576px) {
+    .btn-label {
+        display: none;
+    }
+
+    .mini-action-btn {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        justify-content: center;
+    }
+}
+
+/* Wrapper för centrering */
+.toggle-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: -4px;      /* närmare listan */
+}
+
+/* Själva knappen */
+.toggle-btn {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    color: var(--purple-main);
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: 0.2s ease;
+}
+
+.toggle-btn:hover {
+    text-decoration: underline;
+    color: var(--purple-dark);
+}
+
+/* =======================================
+   Lägg till ord-knapp (48px, vit, lila)
+======================================= */
+.add-word-btn {
+    width: 100%;
+    height: 48px;
+
+    background: white;
+    border: 1.8px solid #ddd4ff;
+    border-radius: 14px;
+
+    font-size: 1rem;
+    font-weight: 400;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.20s ease;
+    box-shadow: none;
+}
+
+.add-word-btn:hover {
+    background: #f4edff;
+    border-color: var(--purple-main);
+    color: black;
+}
+
+.add-word-btn:active,
+.add-word-btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Justera radhöjd för ordlistetabellen */
+.wordlist-table tbody tr {
+    height: 34px;            /* bestämmer radhöjden */
+}
+
+.wordlist-table td {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
 }
