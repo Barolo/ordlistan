@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}Mina ordlistor – Lexiqo{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/view_all.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-wide">
+
+    <div class="lists-container">
+
+        <!-- =====================================================
+             TOP CONTROLS
+             ===================================================== -->
+        <div class="lists-controls">
+
+            <div class="controls-left">
+                <input
+                    id="searchInput"
+                    type="text"
+                    class="search-input"
+                    placeholder="Sök efter lista…"
+                >
+
+                <select id="sortSelect" class="sort-select">
+                    <option value="name_asc">A till Ö</option>
+                    <option value="name_desc">Ö till A</option>
+                    <option value="words_desc">Flest ord</option>
+                    <option value="words_asc">Minst ord</option>
+                    <option value="created_desc">Nyast</option>
+                    <option value="created_asc">Äldst</option>
+                </select>
+            </div>
+
+            <a href="{{ url_for('lists.create_list') }}" class="btn-create">
+                <i class="fa-solid fa-plus"></i>
+                Skapa ny lista
+            </a>
+
+        </div>
+
+        <!-- =====================================================
+             LIST CARDS
+             ===================================================== -->
+        <div id="listsWrapper">
+
+            {% for l in lists %}
+
+                {% set approved = l.approved_count|default(0) %}
+                {% set total = l.words|length %}
+                {% set progress = (approved / total * 100) if total > 0 else 0 %}
+
+                <article
+                    class="list-card"
+                    data-name="{{ l.name }}"
+                    data-words="{{ total }}"
+                    data-created="{% if l.created_at %}{{ l.created_at.isoformat() }}{% endif %}"
+                    data-href="{{ url_for('lists.view_list', list_id=l.id) }}"
+                >
+
+                    <!-- MAIN -->
+                    <div class="list-main">
+
+                        <div class="list-title-row">
+                            <span class="list-title">{{ l.name }}</span>
+                            <span class="list-count">({{ total }} ord)</span>
+                        </div>
+
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: {{ progress }}%"></div>
+                        </div>
+
+                        <div class="list-actions">
+                            <form
+                                method="POST"
+                                action="{{ url_for('lists.delete_list', list_id=l.id) }}"
+                                onsubmit="return confirm('Ta bort listan?')"
+                            >
+                                <button
+                                    type="submit"
+                                    class="icon-btn delete"
+                                    aria-label="Ta bort lista"
+                                >
+                                    🗑
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <!-- EXTRA INFO -->
+                    <div class="list-extra">
+                        <span>
+                            Skapad:
+                            {% if l.created_at %}
+                                {{ l.created_at.strftime('%Y-%m-%d') }}
+                            {% else %}
+                                okänt datum
+                            {% endif %}
+                        </span>
+
+                        <span>Godkända ord: {{ approved }} / {{ total }}</span>
+
+                        {% if l.last_tested %}
+                            <span>Senast förhörd: {{ l.last_tested.strftime('%Y-%m-%d') }}</span>
+                        {% endif %}
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- =====================================================
+             PAGINATION
+             ===================================================== -->
+        <div class="pagination-bar">
+            <button id="prevPage" class="page-btn">Föregående</button>
+            <span id="pageInfo" class="page-info"></span>
+            <button id="nextPage" class="page-btn">Nästa</button>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const wrapper   = document.getElementById("listsWrapper");
+    const allCards  = Array.from(wrapper.querySelectorAll(".list-card"));
+
+    const searchInput = document.getElementById("searchInput");
+    const sortSelect  = document.getElementById("sortSelect");
+    const prevBtn     = document.getElementById("prevPage");
+    const nextBtn     = document.getElementById("nextPage");
+    const pageInfo    = document.getElementById("pageInfo");
+
+    const PAGE_SIZE = 30;
+    let filteredSorted = [...allCards];
+    let currentPage = 1;
+
+    /* -----------------------------
+       Card click (safe)
+    ----------------------------- */
+    allCards.forEach(card => {
+        card.addEventListener("click", () => {
+            window.location.href = card.dataset.href;
+        });
+    });
+
+    function parseDate(card) {
+        const v = card.dataset.created;
+        if (!v) return new Date(0);
+        const d = new Date(v);
+        return isNaN(d) ? new Date(0) : d;
+    }
+
+    function applyFiltersAndSort() {
+        const q = searchInput.value.toLowerCase().trim();
+
+        filteredSorted = allCards.filter(card =>
+            card.dataset.name.toLowerCase().includes(q)
+        );
+
+        const [key, order] = sortSelect.value.split("_");
+        const dir = order === "desc" ? -1 : 1;
+
+        filteredSorted.sort((a, b) => {
+            if (key === "name") {
+                return a.dataset.name.localeCompare(b.dataset.name, "sv") * dir;
+            }
+            if (key === "words") {
+                return (a.dataset.words - b.dataset.words) * dir;
+            }
+            if (key === "created") {
+                return (parseDate(a) - parseDate(b)) * dir;
+            }
+            return 0;
+        });
+
+        renderPage(1);
+    }
+
+    function renderPage(page) {
+        const total = filteredSorted.length;
+        const maxPage = Math.max(1, Math.ceil(total / PAGE_SIZE));
+
+        currentPage = Math.min(Math.max(page, 1), maxPage);
+
+        const start = (currentPage - 1) * PAGE_SIZE;
+        const end   = start + PAGE_SIZE;
+
+        wrapper.innerHTML = "";
+        filteredSorted.slice(start, end).forEach(card => wrapper.appendChild(card));
+
+        const from = total === 0 ? 0 : start + 1;
+        const to   = Math.min(end, total);
+        pageInfo.textContent = `${from} till ${to} av ${total} listor`;
+
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === maxPage;
+    }
+
+    searchInput.addEventListener("input", applyFiltersAndSort);
+    sortSelect.addEventListener("change", applyFiltersAndSort);
+    prevBtn.addEventListener("click", () => renderPage(currentPage - 1));
+    nextBtn.addEventListener("click", () => renderPage(currentPage + 1));
+
+    applyFiltersAndSort();
+});
+</script>
+{% endblock %}

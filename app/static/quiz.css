@@ -1,0 +1,398 @@
+/* =======================================================
+   QUIZ – Modern & premium UI
+   Följer samma stil som landing page (violett, clean, luftigt)
+======================================================= */
+
+/* ------------------------------
+   1. PAGE WRAPPER
+------------------------------ */
+
+.quiz-page {
+    max-width: 760px;
+    margin: 0 auto 80px;
+    padding: 0 20px;
+    font-family: var(--font-main);
+}
+
+/* ------------------------------
+   2. QUIZ HERO (tunn hero)
+------------------------------ */
+
+.quiz-hero {
+    position: relative;
+    height: 160px;
+    background-image: url("/static/img/hero_bg.png");
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    margin: 20px 0 35px;
+    overflow: hidden;
+}
+
+.quiz-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(87, 80, 212, 0.55);
+}
+
+.quiz-hero-title {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding-top: 42px;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.quiz-hero-sub {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-top: 6px;
+    color: #e8e6ff;
+    font-size: 15px;
+}
+
+
+/* ------------------------------
+   3. HEADER + PROGRESS BAR
+------------------------------ */
+
+.quiz-header {
+    margin-bottom: 14px;
+}
+
+.quiz-level-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-light);
+    margin-bottom: 6px;
+}
+
+.quiz-progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.quiz-progress-bar {
+    flex: 1;
+    height: 10px;
+    border-radius: 8px;
+    background: #e8e2ff;
+    overflow: hidden;
+}
+
+.quiz-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--color-primary);
+    transition: width 0.4s ease;
+    border-radius: 8px;
+}
+
+.quiz-progress-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+
+/* ------------------------------
+   4. QUESTION CARD
+------------------------------ */
+
+.quiz-card-modern {
+    position: relative;
+    background: #fff;
+    border-radius: 18px;
+    padding: 32px 26px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+    animation: fadeIn 0.35s ease;
+    text-align: center;
+}
+
+.quiz-question-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-light);
+}
+
+.quiz-question-text {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 14px 0 26px;
+    color: var(--color-primary);
+}
+
+/* --- Input field --- */
+
+.quiz-input {
+    font-size: 20px;
+    padding: 14px;
+    border-radius: 14px;
+    border: 2px solid #ddd;
+    width: 100%;
+    transition: 0.25s ease;
+}
+
+.quiz-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(87,80,212,0.18);
+    outline: none;
+}
+
+/* --- Submit button --- */
+
+.quiz-submit-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 14px;
+    border: none;
+    background: var(--color-primary);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(87,80,212,0.25);
+    transition: 0.25s ease;
+}
+
+.quiz-submit-btn:hover {
+    background: var(--color-primary-light);
+    transform: translateY(-2px);
+}
+
+
+/* ------------------------------
+   5. FEEDBACK STATES
+------------------------------ */
+
+.quiz-feedback {
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.quiz-feedback.quiz-feedback-correct {
+    color: #4caf50;
+}
+
+.quiz-feedback.quiz-feedback-wrong {
+    color: #e53935;
+}
+
+/* Card color flash */
+.quiz-card-correct {
+    animation: flashCorrect 0.35s ease;
+}
+
+.quiz-card-wrong {
+    animation: flashWrong 0.35s ease;
+}
+
+@keyframes flashCorrect {
+    0% { background: #e8ffe8; }
+    100% { background: #fff; }
+}
+
+@keyframes flashWrong {
+    0% { background: #ffe8e8; }
+    100% { background: #fff; }
+}
+
+
+/* ------------------------------
+   6. SUMMARY / FINISH PANEL
+------------------------------ */
+
+.quiz-summary {
+    display: none;
+    background: linear-gradient(135deg, #ffffff, #f4f1ff);
+    padding: 32px 26px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+    animation: fadeIn 0.35s ease;
+}
+
+.quiz-summary-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--color-primary);
+}
+
+.quiz-summary-score {
+    font-size: 20px;
+    color: var(--color-text-light);
+    margin-bottom: 24px;
+}
+
+.btn-white-modern {
+    display: inline-block;
+    padding: 12px 28px;
+    font-weight: 600;
+    background: #fff;
+    border-radius: 14px;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    text-decoration: none;
+    transition: 0.25s;
+}
+
+.btn-white-modern:hover {
+    background: var(--color-primary);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ------------------------------ */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------
+   7. RESPONSIVE
+------------------------------ */
+
+@media (max-width: 600px) {
+    .quiz-question-text {
+        font-size: 22px;
+    }
+
+    .quiz-card-modern {
+        padding: 26px 18px;
+    }
+
+    .quiz-hero-title {
+        font-size: 24px;
+        padding-top: 38px;
+    }
+}
+
+/* ------------------------------
+   8. Cancel-btn
+------------------------------ */
+.quiz-cancel-top {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    display: block;
+    font-size: 14px;
+    color: #777;
+    text-decoration: none;
+    z-index: 10;
+}
+
+.quiz-cancel-top:hover {
+    text-decoration: underline;
+}
+
+/* ===========================================
+   RESULT CARD - Modern Animated Version
+=========================================== */
+
+
+.result-icon {
+    font-size: 60px;
+    margin-bottom: 10px;
+}
+
+.result-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 6px;
+}
+
+.result-score {
+    color: var(--color-text-light);
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.result-meter {
+    width: 100%;
+    height: 12px;
+    border-radius: 10px;
+    background: #eae4ff;
+    margin-bottom: 22px;
+    overflow: hidden;
+}
+
+.result-meter-fill {
+    height: 100%;
+    background: var(--color-primary);
+    transition: width 0.5s ease-out;
+}
+
+.result-btn-try-again,
+.result-btn-home {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-weight: 600;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #fff;
+    background: var(--color-primary);
+    box-shadow: 0 4px 14px rgba(87,80,212,0.25);
+    transition: 0.2s ease;
+}
+
+.result-btn-try-again:hover {
+    background: var(--color-primary-light);
+    transform: translateY(-2px);
+}
+
+.result-btn-home {
+    background: #ffffff;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+}
+
+.result-btn-home:hover {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.result-cta-box {
+    margin-top: 24px;
+    padding: 18px;
+    background: #faf8ff;
+    border-radius: 14px;
+    border: 1px solid #e3dcff;
+}
+
+.result-cta-box p {
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: var(--color-text-dark);
+}
+
+.cta-primary,
+.cta-secondary {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    margin: 4px;
+}
+
+.cta-primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.cta-secondary {
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    background: #fff;
+}

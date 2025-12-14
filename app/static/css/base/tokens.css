@@ -1,0 +1,146 @@
+/* ======================================================
+   Lexiqo Design Tokens
+   Single source of truth for color, typography, spacing,
+   elevation and motion. Supports light and dark mode.
+   ====================================================== */
+
+:root {
+    /* --------------------------------------------------
+       Color system – Light mode (default)
+       -------------------------------------------------- */
+
+    /* Brand scale (raw values, rarely used directly) */
+    --color-primary-600: #5b2ee5;
+    --color-primary-700: #4a25c0;
+
+    /* Semantic brand usage */
+    --color-primary: var(--color-primary-600);
+    --color-primary-hover: var(--color-primary-700);
+
+    /* Backgrounds */
+    --color-bg: #ffffff;
+    --color-surface: #f6f5fb;
+    --color-surface-elevated: #ffffff;
+
+    /* Text */
+    --color-text-primary: #1c1b22;
+    --color-text-secondary: #6b6a75;
+    --color-text-muted: #9a99a3;
+    --color-text-inverse: #ffffff;
+
+    /* Borders & dividers */
+    --color-border: rgba(20, 18, 40, 0.08);
+
+    /* Feedback */
+    --color-success: #2cb67d;
+    --color-danger: #e5484d;
+    --color-warning: #f5a524;
+
+    /* Feedback backgrounds */
+    --color-success-bg: rgba(44, 182, 125, 0.12);
+    --color-danger-bg: rgba(229, 72, 77, 0.12);
+    --color-warning-bg: rgba(245, 165, 36, 0.12);
+
+    /* --------------------------------------------------
+       Typography
+       -------------------------------------------------- */
+
+    /* Base UI font */
+    --font-base: "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    /* Decorative font (logo / hero only) */
+    --font-decorative: "Courgette", cursive;
+
+    /* Font sizes */
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-base: 15px;
+    --font-size-lg: 18px;
+    --font-size-xl: 24px;
+    --font-size-2xl: 32px;
+
+        /* Font weights */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Letter spacing */
+    --tracking-tight: -0.02em;
+    --tracking-normal: 0;
+
+    /* Line heights */
+    --line-height-tight: 1.2;
+    --line-height-base: 1.5;
+    --line-height-loose: 1.7;
+
+    /* --------------------------------------------------
+       Spacing
+       -------------------------------------------------- */
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+
+    /* --------------------------------------------------
+       Radius
+       -------------------------------------------------- */
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+
+    /* --------------------------------------------------
+       Elevation
+       Only used for surfaces and cards, never buttons
+       -------------------------------------------------- */
+
+    --shadow-card: 0 8px 24px rgba(30, 20, 80, 0.08);
+
+    /* --------------------------------------------------
+       Motion
+       -------------------------------------------------- */
+
+    --transition-fast: 120ms ease-out;
+    --transition-base: 180ms ease-out;
+}
+
+/* ======================================================
+   Dark mode tokens
+   Activated via data-theme="dark"
+   ====================================================== */
+
+[data-theme="dark"] {
+    /* Backgrounds */
+    --color-bg: #0f0e17;
+    --color-surface: #1a1923;
+    --color-surface-elevated: #1f1e29;
+
+    /* Text */
+    --color-text-primary: #f3f2f7;
+    --color-text-secondary: #b7b6c2;
+    --color-text-muted: #8f8e9a;
+    --color-text-inverse: #0f0e17;
+
+    /* Borders */
+    --color-border: rgba(255, 255, 255, 0.08);
+
+    /* Brand (slightly lifted for contrast) */
+    --color-primary: #8f7bff;
+    --color-primary-hover: #7b66ff;
+
+    /* Elevation */
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.35);
+}

@@ -1,0 +1,161 @@
+/* ======================================
+   AUTH BACKGROUND
+   Subtil glow + modern gradient
+====================================== */
+
+.auth-background {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.15), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,0.12), transparent 60%),
+        linear-gradient(135deg, #4A1D6C 0%, #7d4fe0 100%);
+    padding: 20px;
+}
+
+/* ======================================
+   AUTH WRAPPER / CARD
+====================================== */
+
+.auth-wrapper {
+    width: 100%;
+    max-width: 420px;
+}
+
+/* Själva kortet */
+.auth-card {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    text-align: center;
+}
+
+/* ======================================
+   LOGO
+====================================== */
+
+.login-logo img {
+    width: 120px;
+    height: auto;
+    margin-bottom: 2px;
+}
+
+/* ======================================
+   TITLES
+====================================== */
+
+.auth-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #4A1D6C;
+}
+
+.auth-subtitle {
+    font-size: 15px;
+    color: #6a5e85;
+    margin-bottom: 22px;
+}
+
+/* ======================================
+   INPUTS
+====================================== */
+
+.auth-input-wrapper {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: #7d4fe0;
+    font-size: 15px;
+}
+
+.auth-input {
+    padding-left: 40px !important;
+    height: 46px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    transition: border-color 0.2s ease;
+}
+
+.auth-input:focus {
+    border-color: #7d4fe0;
+    box-shadow: 0 0 0 3px rgba(125, 79, 224, 0.15);
+}
+
+/* ======================================
+   BUTTONS
+====================================== */
+
+.primary-btn {
+    background: #7d4fe0;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.primary-btn:hover {
+    background: #6d44d3;
+}
+
+/* ======================================
+   LINKS
+====================================== */
+
+.auth-link {
+    color: #4A1D6C;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+/* ======================================
+   FLASH MESSAGES
+====================================== */
+
+.flash {
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 18px;
+    font-weight: 500;
+}
+
+.flash.error {
+    background: #ffe0e0;
+    color: #b11212;
+}
+
+.flash.success {
+    background: #dfffe3;
+    color: #1b6e37;
+}
+
+/* ======================================
+   MOBILE
+====================================== */
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 24px;
+    }
+
+    .auth-title {
+        font-size: 22px;
+    }
+}

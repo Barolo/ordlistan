@@ -1,145 +1,133 @@
 {% extends "base.html" %}
+
+{% block title %}Starta förhör{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/quiz_settings.css') }}">
+{% endblock %}
+
 {% block content %}
+<div class="quiz-settings-page">
 
-<div class="main-content" style="max-width: 750px; margin: 0 auto;">
-
-    <h2 class="text-center mb-3">Starta nytt förhör</h2>
-
-    <div class="card dash-card shadow-sm">
-
-        <div class="card-header card-header-purple py-3">
-            <h5 class="mb-0">Inställningar</h5>
-        </div>
-
-        <div class="card-body">
-
-            <form method="POST">
-
-                <div class="row g-4">
-
-                    <!-- ================= LEFT COLUMN: WORDLISTS ================= -->
-                    <div class="col-md-6">
-                        
-                        <h5 class="section-title">Välj ordlistor</h5>
-
-                        <!-- Alla listor -->
-                        <label class="selectable-card first-list-card" id="all_lists_card">
-                            <input type="checkbox" name="lists" value="all" id="all_lists" checked>
-                            <span class="selectable-checkmark"></span>
-                            <span class="selectable-text">Alla listor</span>
-                        </label>
-
-                        <!-- Wrapper för listor -->
-                        <div id="wordlist-wrapper">
-
-                            {% for wl in wordlists %}
-                                {% set full_label = wl.name ~ " (" ~ wl.words|length ~ " ord)" %}
-                                <label class="selectable-card single-list-card {% if loop.index > 4 %}hidden-list{% endif %}">
-                                    <input type="checkbox" class="single-list" name="lists" value="{{ wl.id }}">
-                                    <span class="selectable-checkmark"></span>
-
-                                    <span class="selectable-text">
-                                        {{ wl.name | short_label(28) }} <span class="text-muted">({{ wl.words|length }} ord)</span>
-                                    </span>
-                                </label>
-                            {% endfor %}
-
-                        </div>
-
-                        <button type="button" id="toggle-lists-btn" class="show-more-btn">
-                            Visa fler listor
-                        </button>
-
-                    </div>
-
-                    <!-- ================= RIGHT COLUMN: DIRECTION ================= -->
-                    <div class="col-md-6">
-
-                        <h5 class="section-title">Riktning</h5>
-
-                        <label class="selectable-card">
-                            <input type="radio" name="direction" value="mix" checked>
-                            <span class="selectable-checkmark"></span>
-                            <span class="selectable-text">Blandat</span>
-                        </label>
-
-                        <label class="selectable-card">
-                            <input type="radio" name="direction" value="sv_en">
-                            <span class="selectable-checkmark"></span>
-                            <span class="selectable-text">Svenska → Engelska</span>
-                        </label>
-
-                        <label class="selectable-card">
-                            <input type="radio" name="direction" value="en_sv">
-                            <span class="selectable-checkmark"></span>
-                            <span class="selectable-text">Engelska → Svenska</span>
-                        </label>
-
-                    </div>
-
-                </div>
-
-                <!-- ======= SLIDER ======= -->
-                <h5 class="section-title mt-4">Antal ord</h5>
-
-                <div class="slider-wrapper">
-                    <input type="range"
-                           name="num_words"
-                           min="3" max="21" value="15"
-                           id="num_words_slider"
-                           oninput="num_words_output.textContent = this.value">
-
-                    <span id="num_words_output" class="slider-value">15</span>
-                </div>
-
-                <button type="submit" class="primary-btn w-100 mt-4">
-                    Starta förhör
-                </button>
-
-            </form>
-
-        </div>
+    <!-- HEADER -->
+    <div class="quiz-settings-header">
+        <h1>Starta nytt förhör</h1>
+        <p>Välj ordlistor, riktning och antal ord.</p>
     </div>
 
+    <form method="POST" class="quiz-settings-card">
+
+        <div class="quiz-settings-grid">
+
+            <!-- ================= LEFT: WORDLISTS ================= -->
+            <section class="quiz-settings-section">
+
+                <h3 class="section-title">Välj ordlistor</h3>
+
+                <!-- Alla listor -->
+                <label class="selectable-card">
+                    <input type="checkbox" name="lists" value="all" id="all_lists" checked>
+                    <span class="selectable-checkmark"></span>
+                    <span class="selectable-text">Alla ordlistor</span>
+                </label>
+
+                <!-- Listor -->
+                <div id="wordlist-wrapper" class="wordlist-wrapper">
+
+                    {% for wl in wordlists %}
+                    <label class="selectable-card single-list {% if loop.index > 4 %}hidden-list{% endif %}">
+                        <input type="checkbox" class="single-list-input" name="lists" value="{{ wl.id }}">
+                        <span class="selectable-checkmark"></span>
+                        <span class="selectable-text">
+                            {{ wl.name | short_label(28) }}
+                            <span class="text-muted">({{ wl.words|length }} ord)</span>
+                        </span>
+                    </label>
+                    {% endfor %}
+
+                </div>
+
+                <button type="button" id="toggle-lists-btn" class="btn-ghost">
+                    Visa fler listor
+                </button>
+
+            </section>
+
+            <!-- ================= RIGHT: DIRECTION ================= -->
+            <section class="quiz-settings-section">
+
+                <h3 class="section-title">Riktning</h3>
+
+                <label class="selectable-card">
+                    <input type="radio" name="direction" value="mix" checked>
+                    <span class="selectable-checkmark"></span>
+                    <span class="selectable-text">Blandat</span>
+                </label>
+
+                <label class="selectable-card">
+                    <input type="radio" name="direction" value="sv_en">
+                    <span class="selectable-checkmark"></span>
+                    <span class="selectable-text">Svenska → Engelska</span>
+                </label>
+
+                <label class="selectable-card">
+                    <input type="radio" name="direction" value="en_sv">
+                    <span class="selectable-checkmark"></span>
+                    <span class="selectable-text">Engelska → Svenska</span>
+                </label>
+
+            </section>
+
+        </div>
+
+        <!-- ================= SLIDER ================= -->
+        <section class="quiz-settings-section">
+            <h3 class="section-title">Antal ord</h3>
+
+            <div class="slider-wrapper">
+                <input
+                    type="range"
+                    name="num_words"
+                    min="3"
+                    max="21"
+                    value="15"
+                    id="num_words_slider"
+                    oninput="num_words_output.textContent = this.value"
+                >
+                <span id="num_words_output" class="slider-value">15</span>
+            </div>
+        </section>
+
+        <!-- ACTION -->
+        <button type="submit" class="btn-primary btn-full">
+            Starta förhör
+        </button>
+
+    </form>
+
 </div>
+{% endblock %}
 
-
-<!-- ===================== CLEAN + WORKING JS ===================== -->
 {% block scripts %}
 <script>
 window.addEventListener("load", () => {
 
-    /* ----------------------------------------------------------
-       ELEMENTS
-    ---------------------------------------------------------- */
     const wrapper = document.getElementById("wordlist-wrapper");
     const toggleBtn = document.getElementById("toggle-lists-btn");
     const hiddenLists = document.querySelectorAll(".hidden-list");
     const allLists = document.getElementById("all_lists");
-    const singleLists = document.querySelectorAll(".single-list");
+    const singleLists = document.querySelectorAll(".single-list-input");
 
-    /* ----------------------------------------------------------
-       1. SHOW MORE / SHOW LESS
-    ---------------------------------------------------------- */
+    /* SHOW MORE / LESS */
     let expanded = false;
 
     toggleBtn.addEventListener("click", () => {
         expanded = !expanded;
-
-        if (expanded) {
-            wrapper.classList.add("expanded");
-            hiddenLists.forEach(el => el.classList.add("show"));
-            toggleBtn.textContent = "Visa färre listor";
-        } else {
-            wrapper.classList.remove("expanded");
-            hiddenLists.forEach(el => el.classList.remove("show"));
-            toggleBtn.textContent = "Visa fler listor";
-        }
+        hiddenLists.forEach(el => el.classList.toggle("show"));
+        toggleBtn.textContent = expanded ? "Visa färre listor" : "Visa fler listor";
     });
 
-    /* ----------------------------------------------------------
-       2. LOGIK FÖR "Alla listor" <-> Enskilda listor
-    ---------------------------------------------------------- */
+    /* ALL LISTS LOGIC */
     allLists.addEventListener("change", () => {
         if (allLists.checked) {
             singleLists.forEach(cb => cb.checked = false);
@@ -154,32 +142,6 @@ window.addEventListener("load", () => {
         });
     });
 
-    /* ----------------------------------------------------------
-       3. MOBIL COLLAPSE
-    ---------------------------------------------------------- */
-    if (window.innerWidth < 600) {
-
-        const title = document.querySelector(".section-title");
-
-        const collapseBtn = document.createElement("button");
-        collapseBtn.textContent = "Visa / Dölj listor";
-        collapseBtn.className = "primary-btn mt-2 w-100";
-        collapseBtn.style.fontSize = "14px";
-
-        title.insertAdjacentElement("afterend", collapseBtn);
-
-        let collapsed = true;
-        wrapper.style.maxHeight = "0px";
-
-        collapseBtn.addEventListener("click", () => {
-            collapsed = !collapsed;
-            wrapper.style.maxHeight = collapsed ? "0px" : "900px";
-        });
-    }
-
 });
 </script>
 {% endblock %}
-
-{% endblock %}
-

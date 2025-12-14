@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block title %}Lexiqo – Träna engelska smart{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/landing.css') }}">
+{% endblock %}
+
+{% block full_width_content %}
+<div class="landing-hero">
+    <div class="hero-inner">
+
+        <img
+            class="hero-logo"
+            src="{{ url_for('static', filename='img/lexiqo_logo.png') }}"
+            alt="Lexiqo"
+        >
+
+        <h1>Skapa ett ordförråd som håller</h1>
+        <p>
+            Smart repetition och nivåbaserad träning för långsiktig kunskap.
+        </p>
+
+        <p class="hero-beta-note">
+            Lexiqo är just nu i publik beta.
+            Du kan testa de publika förhören redan nu,
+            konton och sparade resultat öppnas längre fram.
+        </p>
+        {#
+        <div class="hero-buttons">
+            <a href="{{ url_for('auth.register') }}" class="btn-hero-main">
+                Skapa konto
+            </a>
+            <a href="{{ url_for('auth.login') }}" class="btn-hero-secondary">
+                Logga in
+            </a>
+        </div>
+        #}
+
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <!-- =========================
+         LEVELS
+         ========================= -->
+    <section class="section levels">
+        <h2>Välj svårighetsnivå</h2>
+
+        <div class="level-grid">
+
+            <div class="level-card">
+                <div class="level-top">
+                    <i class="fa-solid fa-book level-icon easy"></i>
+                    <h3>Lätt</h3>
+                    <p>Vanliga ord och enkla glosor.</p>
+                </div>
+                <a href="{{ url_for('public.practice_level', level='easy') }}"
+                   class="level-start-btn">
+                    Starta
+                </a>
+            </div>
+
+            <div class="level-card">
+                <div class="level-top">
+                    <i class="fa-solid fa-book level-icon medium"></i>
+                    <h3>Medel</h3>
+                    <p>Mer utmanande glosor och uttryck.</p>
+                </div>
+                <a href="{{ url_for('public.practice_level', level='medium') }}"
+                   class="level-start-btn">
+                    Starta
+                </a>
+            </div>
+
+            <div class="level-card">
+                <div class="level-top">
+                    <i class="fa-solid fa-book level-icon hard"></i>
+                    <h3>Svår</h3>
+                    <p>Avancerade ord och uttryck.</p>
+                </div>
+                <a href="{{ url_for('public.practice_level', level='hard') }}"
+                   class="level-start-btn">
+                    Starta
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =========================
+         FEATURES
+         ========================= -->
+    <section class="section features">
+        <h2>Varför Lexiqo?</h2>
+
+        <div class="features-horizontal">
+
+            <div class="feature-row">
+                <i class="fa-solid fa-layer-group feature-icon"></i>
+                <div class="feature-text">
+                    <h4>Skapa egna ordlistor</h4>
+                    <p>
+                        Bygg personliga ordlistor som passar just dina mål. Dela upp orden efter nivå,
+                        ämne eller sammanhang och träna exakt det du behöver för att utvecklas snabbare.
+                    </p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <i class="fa-solid fa-repeat feature-icon"></i>
+                <div class="feature-text">
+                    <h4>Smart repetition som ger resultat</h4>
+                    <p>
+                        Ord och uttryck du har svårt för dyker upp oftare, helt automatiskt. Det gör
+                        repetitionen mer träffsäker och hjälper dig att befästa kunskapen på riktigt.
+                    </p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <i class="fa-solid fa-chart-line feature-icon"></i>
+                <div class="feature-text">
+                    <h4>Följ din utveckling över tid</h4>
+                    <p>
+                        Se hur ditt ordförråd växer med tydlig statistik och historik. Få en konkret bild
+                        av dina framsteg och vad du bör fokusera på härnäst.
+                    </p>
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <i class="fa-regular fa-circle-check feature-icon"></i>
+                <div class="feature-text">
+                    <h4>Designad för fokus</h4>
+                    <p>
+                        Lexiqo är byggt för koncentration. En ren, genomtänkt design utan distraktioner gör
+                        att du kan lägga all energi på det som spelar roll, att lära dig orden ordentligt.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =========================
+         CTA
+         ========================= -->
+    <section class="cta-after-features">
+        <h2>Börja träna med Lexiqo</h2>
+        <p>
+            Skapa ett konto och kom igång direkt. Träna smartare, följ din utveckling
+            och bygg ett ordförråd som faktiskt sitter.
+        </p>
+
+        {#
+        <div class="cta-btn-row">
+            <a href="{{ url_for('auth.register') }}" class="btn-main-cta">
+                Skapa konto
+            </a>
+        </div>
+        #}
+    </section>
+
+    <!-- =========================
+         ABOUT
+         ========================= -->
+    <section class="about-lexiqo">
+        <div class="about-lexiqo-inner">
+            <h2>Om Lexiqo</h2>
+
+        <!-- Desktop / större skärmar -->
+       
+            <p>
+                Lexiqo är ett digitalt verktyg för att bygga och befästa ditt ordförråd i vardagen.
+                I stället för traditionell språkinlärning fokuserar Lexiqo på att ta hand om nya ord
+                när du faktiskt stöter på dem.
+            </p>
+            <p>
+                Spara ord du möter i texter, samtal, studier eller på jobbet och samla dem i
+                personliga listor eller färdiga teman. Med hjälp av smart repetition tränar du
+                orden när det passar dig, till exempel på bussen till jobbet eller skolan.
+            </p>
+            <p>
+                Lexiqo är byggt för enkelhet och fokus. Inga distraktioner och inga färdiga
+                scheman, bara ett tydligt och personligt sätt att låta ditt ordförråd växa
+                naturligt över tid.
+            </p>
+        </div>
+
+        <!-- Mobil -->
+        <div class="about-text-mobile">
+            <p>
+                Lexiqo hjälper dig att ta vara på nya ord när du stöter på dem i vardagen.
+                Spara ord du inte kan, träna dem regelbundet och bygg ett starkare ordförråd
+                över tid, på ett enkelt och fokuserat sätt.
+            </p>
+        </div>
+    </section>
+
+</div>
+
+<footer class="footer">
+    <p>
+        Lexiqo © 2025 – Byggd med
+        <i class="fa-regular fa-heart footer-heart"></i>
+        av Rikard
+    </p>
+</footer>
+
+{% endblock %}

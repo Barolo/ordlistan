@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}{{ wordlist.name }} – Lexiqo{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/lists.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-narrow">
+
+    <div class="list-view-container">
+
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+        <header class="list-view-header">
+            <h1 class="list-title">{{ wordlist.name }}</h1>
+
+            <a
+                href="{{ url_for('lists.edit_list', list_id=wordlist.id) }}"
+                class="btn-small"
+            >
+                ✏️ Ändra namn
+            </a>
+        </header>
+
+        <!-- =====================================================
+             ADD WORD
+             ===================================================== -->
+        <section class="card add-word-card">
+            <h3>Lägg till nytt ord</h3>
+
+            <form
+                method="POST"
+                action="{{ url_for('lists.add_word', list_id=wordlist.id) }}"
+                class="add-word-form"
+            >
+                <input
+                    type="text"
+                    name="original"
+                    placeholder="Original"
+                    required
+                >
+
+                <input
+                    type="text"
+                    name="translation"
+                    placeholder="Översättning"
+                    required
+                >
+
+                <button type="submit" class="btn-primary">
+                    Lägg till ord
+                </button>
+            </form>
+        </section>
+
+        <!-- =====================================================
+             WORD TABLE
+             ===================================================== -->
+        <section class="card words-card">
+
+            <h3 class="table-title">
+                Ord i listan ({{ words|length }})
+            </h3>
+
+            <div class="table-responsive">
+                <table class="words-table">
+                    <thead>
+                        <tr>
+                            <th>Original</th>
+                            <th>Översättning</th>
+                            <th colspan="2" class="table-actions">
+                                Åtgärder
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for w in words %}
+                        <tr>
+                            <td>{{ w.original }}</td>
+                            <td>{{ w.translation }}</td>
+
+                            <td>
+                                <a
+                                    href="{{ url_for('lists.edit_word', word_id=w.id) }}"
+                                    class="table-btn edit"
+                                >
+                                    ✏️ Redigera
+                                </a>
+                            </td>
+
+                            <td>
+                                <a
+                                    href="{{ url_for('lists.delete_word', word_id=w.id) }}"
+                                    class="table-btn delete"
+                                    onclick="return confirm('Ta bort ordet?')"
+                                >
+                                    🗑 Ta bort
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

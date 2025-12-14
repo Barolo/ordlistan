@@ -1,0 +1,316 @@
+/* ============================================================
+   LEXIQO — LISTS
+   Cards + list view, calm and premium
+   ============================================================ */
+
+/* ============================================================
+   1. PAGE CONTAINERS
+   ============================================================ */
+
+.lists-container,
+.list-view-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--space-3) var(--space-4);
+}
+
+/* ============================================================
+   2. TOP CONTROLS
+   ============================================================ */
+
+.lists-controls {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    margin-bottom: var(--space-4);
+}
+
+.search-input,
+.sort-select {
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    font-size: var(--font-size-base);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    min-width: 160px;
+}
+
+.search-input::placeholder {
+    color: var(--color-text-muted);
+}
+
+/* Create button – no shadow, no movement */
+.btn-create {
+    background: transparent;
+    border: 2px solid var(--color-primary-600);
+    color: var(--color-primary-600);
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background var(--transition-base), color var(--transition-base);
+}
+
+.btn-create:hover {
+    background: var(--color-primary-600);
+    color: var(--color-text-inverse);
+}
+
+/* ============================================================
+   3. LIST CARDS (VIEW ALL)
+   ============================================================ */
+
+.list-card {
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-bottom: var(--space-3);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+
+    box-shadow: var(--shadow-card);
+    transition: border-color var(--transition-base);
+}
+
+.list-card:hover {
+    border-color: var(--color-primary-600);
+}
+
+/* MAIN ROW */
+.list-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Name + count */
+.list-title-row {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+}
+
+.list-title {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.list-count {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+/* Progress bar */
+.progress-track {
+    width: 220px;
+    height: 8px;
+    background: var(--color-surface);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--color-primary-600);
+    transition: width 0.35s ease;
+}
+
+/* Actions */
+.list-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.icon-btn {
+    width: 32px;
+    height: 32px;
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.icon-btn:hover {
+    background: rgba(91, 46, 229, 0.08);
+    color: var(--color-primary-600);
+}
+
+.icon-btn.delete {
+    color: var(--color-danger);
+}
+
+.icon-btn.delete:hover {
+    background: rgba(229, 72, 77, 0.12);
+}
+
+/* Extra info row */
+.list-extra {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+
+    display: flex;
+    gap: var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+
+    transition: opacity 0.25s ease, max-height 0.25s ease;
+}
+
+.list-card:hover .list-extra {
+    opacity: 1;
+    max-height: 32px;
+}
+
+/* ============================================================
+   4. LIST VIEW (view_list.html)
+   ============================================================ */
+
+.list-view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+}
+
+.list-view-header h1 {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+/* Small button */
+.btn-small {
+    background: transparent;
+    border: 2px solid var(--color-primary-600);
+    padding: 6px 12px;
+    color: var(--color-primary-600);
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-base), color var(--transition-base);
+}
+
+.btn-small:hover {
+    background: var(--color-primary-600);
+    color: var(--color-text-inverse);
+}
+
+/* Card wrapper */
+.card {
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+    box-shadow: var(--shadow-card);
+}
+
+/* Add word form */
+.add-word-form {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.add-word-form input {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+}
+
+/* Primary button */
+.btn-primary {
+    background: var(--color-primary-600);
+    color: var(--color-text-inverse);
+    border: none;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: background var(--transition-base);
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-700);
+}
+
+/* Table */
+.words-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+}
+
+.words-table thead th {
+    text-align: left;
+    padding: 8px 6px;
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 600;
+}
+
+.words-table tbody td {
+    padding: 8px 6px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.words-table tr {
+    height: 38px;
+}
+
+/* Table action buttons */
+.table-btn {
+    width: 28px;
+    height: 28px;
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.table-btn:hover {
+    background: rgba(91, 46, 229, 0.08);
+    color: var(--color-primary-600);
+}
+
+.table-btn.delete:hover {
+    background: rgba(229, 72, 77, 0.12);
+    color: var(--color-danger);
+}
+
+/* ============================================================
+   5. CREATE LIST FORM
+   ============================================================ */
+
+.create-list-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.create-list-form input {
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    font-size: var(--font-size-base);
+}
+
+.create-btn-large {
+    padding: 12px;
+    font-size: var(--font-size-base);
+    border-radius: var(--radius-md);
+}

@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Lexiqo Style Guide Preview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Inter + Courgette -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Courgette&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Brand purples */
+            --purple-deep: #3A0CA3;
+            --purple-primary: #5A36C8;
+            --purple-light: #8F6BFF;
+            --purple-soft: #C7B6FF;
+
+            /* Light theme */
+            --bg-light: #F7F4FF;
+            --surface-light: #FFFFFF;
+            --text-main: #1A1A1A;
+            --text-muted: #5A5A5A;
+
+            /* Dark theme */
+            --bg-dark: #0D0914;
+            --surface-dark: #1A1427;
+            --text-light: #F2F2F2;
+            --text-muted-dark: #A892D6;
+
+            /* Shared */
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 10px;
+            --shadow-soft: 0 14px 30px rgba(19, 16, 34, 0.12);
+            --shadow-soft-light: 0 10px 26px rgba(90, 54, 200, 0.16);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top left, #F7F4FF 0, #ECE4FF 20%, #F7F4FF 60%);
+            color: var(--text-main);
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+        }
+
+        /* HERO */
+
+        .hero {
+            position: relative;
+            border-radius: 32px;
+            padding: 34px 30px 32px;
+            color: #FFF;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 32px;
+            background: radial-gradient(circle at 0% 0%, #8F6BFF 0, #5A36C8 36%, #3A0CA3 70%, #23036A 100%);
+            box-shadow: var(--shadow-soft-light);
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            background:
+                radial-gradient(circle at 15% 10%, rgba(199, 182, 255, 0.25) 0, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(143, 107, 255, 0.35) 0, transparent 45%);
+            opacity: 0.7;
+            mix-blend-mode: screen;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
+            gap: 28px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero-inner {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .hero-left h1 {
+            font-size: 40px;
+            line-height: 1.1;
+            margin: 0 0 10px;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-left h1 span {
+            font-family: "Courgette", cursive;
+            font-weight: 400;
+            font-size: 36px;
+        }
+
+        .hero-left p {
+            margin: 0 0 18px;
+            opacity: 0.9;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hero-tag {
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(247, 244, 255, 0.12);
+            border: 1px solid rgba(247, 244, 255, 0.25);
+            backdrop-filter: blur(6px);
+        }
+
+        .hero-right {
+            justify-self: end;
+        }
+
+        .hero-pill {
+            padding: 14px 18px;
+            border-radius: 20px;
+            background: rgba(5, 0, 40, 0.35);
+            border: 1px solid rgba(199, 182, 255, 0.4);
+            backdrop-filter: blur(10px);
+            font-size: 14px;
+        }
+
+        .hero-pill strong {
+            display: block;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+
+        /* SECTIONS */
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .section-subtitle {
+            margin: 4px 0 0;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* TYPOGRAPHY */
+
+        .type-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .type-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .type-card {
+            background: var(--surface-light);
+            border-radius: var(--radius-lg);
+            padding: 20px 22px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .type-sample h1,
+        .type-sample h2,
+        .type-sample h3 {
+            margin: 0 0 6px;
+        }
+
+        .type-sample h1 {
+            font-size: 40px;
+        }
+
+        .type-sample h2 {
+            font-size: 28px;
+        }
+
+        .type-sample h3 {
+            font-size: 22px;
+        }
+
+        .type-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .type-body {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .type-meta-row {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+
+        .mono {
+            font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        /* COLORS */
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+        }
+
+        .color-swatch {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--surface-light);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .color-swatch-top {
+            height: 80px;
+        }
+
+        .color-swatch-body {
+            padding: 10px 12px 12px;
+            font-size: 13px;
+        }
+
+        .color-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .color-hex {
+            font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* BUTTONS */
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: background 0.16s ease, border-color 0.16s ease;
+            text-decoration: none;
+            gap: 8px;
+        }
+
+        /* PRIMÄR KNAPP */
+        .btn-primary {
+            background: var(--purple-primary);
+            color: #FFF;
+        }
+        .btn-primary:hover {
+            background: #6E48DD; /* lite ljusare */
+        }
+
+        /* SEKUNDÄR KNAPP */
+        .btn-secondary {
+            background: #FFF;
+            color: var(--purple-primary);
+            border: 1px solid var(--purple-soft);
+        }
+        .btn-secondary:hover {
+            background: #F1EBFF;
+        }
+
+        /* TERTIÄR / GHOST */
+        .btn-ghost {
+            background: transparent;
+            color: var(--purple-primary);
+            border: 1px solid rgba(90, 54, 200, 0.25);
+        }
+        .btn-ghost:hover {
+            background: rgba(90, 54, 200, 0.06);
+        }
+
+        /* DISABLED */
+        .btn-disabled {
+            background: #E0DAF8;
+            color: #8C84B3;
+            cursor: not-allowed;
+        }
+
+
+        /* CARDS */
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--surface-light);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            padding: 18px 20px 18px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .card-badge {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: #F7F4FF;
+            color: var(--purple-primary);
+        }
+
+        .stat-large {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 2px 0 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .pill {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            background: #F7F4FF;
+            color: var(--text-muted);
+        }
+
+        /* FORM EXAMPLE */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .field small {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .text-input,
+        .select-input {
+            width: 100%;
+            padding: 9px 11px;
+            border-radius: var(--radius-sm);
+            border: 1px solid #D6CCFF;
+            background: #FFF;
+            font-size: 14px;
+            transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+        }
+
+        .text-input:focus,
+        .select-input:focus {
+            outline: none;
+            border-color: var(--purple-primary);
+            box-shadow: 0 0 0 2px rgba(144, 115, 255, 0.3);
+            background: #FFFFFF;
+        }
+
+        /* DARK THEME PREVIEW */
+
+        .dark-section {
+            margin-top: 40px;
+            padding: 22px 22px 24px;
+            border-radius: 26px;
+            background: radial-gradient(circle at top left, #1C1434 0, #0D0914 40%, #05030A 100%);
+            color: var(--text-light);
+            box-shadow: 0 18px 40px rgba(9, 2, 25, 0.9);
+        }
+
+        .dark-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .dark-tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 3px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(199, 182, 255, 0.4);
+            background: rgba(5, 0, 40, 0.5);
+        }
+
+        .dark-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+            gap: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .dark-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .dark-card {
+            background: var(--surface-dark);
+            border-radius: var(--radius-lg);
+            padding: 16px 18px 16px;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(143, 107, 255, 0.5);
+        }
+
+        .dark-card h3 {
+            margin-top: 0;
+            margin-bottom: 6px;
+            font-size: 16px;
+        }
+
+        .dark-card p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-muted-dark);
+        }
+
+        .dark-meter {
+            margin-top: 10px;
+            width: 100%;
+            height: 6px;
+            border-radius: 999px;
+            background: #221632;
+            overflow: hidden;
+        }
+
+        .dark-meter-fill {
+            width: 72%;
+            height: 100%;
+            background: linear-gradient(90deg, #8F6BFF, #FF99F7);
+        }
+
+        .dark-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-dark-primary {
+            background: linear-gradient(135deg, #8F6BFF, #FF99F7);
+            color: #050214;
+            border-radius: var(--radius-md);
+            padding: 9px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 14px 26px rgba(0, 0, 0, 0.65);
+        }
+
+        .btn-dark-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border-radius: var(--radius-md);
+            padding: 9px 15px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid rgba(199, 182, 255, 0.45);
+            cursor: pointer;
+        }
+
+        /* Small helper */
+
+        .code-chip {
+            display: inline-block;
+            padding: 3px 7px;
+            border-radius: 6px;
+            background: #F0ECFF;
+            font-size: 11px;
+            font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Courier New", monospace;
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <main>
+
+        <!-- HERO -->
+        <header class="hero">
+            <div class="hero-inner">
+                <div class="hero-left">
+                    <h1><span>Lexiqo</span> style preview</h1>
+                    <p>Exempel på färger, typografi, knappar, cards och dark mode som beskriver Lexiqo känslan.</p>
+                    <div class="hero-tags">
+                        <div class="hero-tag">Lila brand identitet</div>
+                        <div class="hero-tag">Light och dark mode</div>
+                        <div class="hero-tag">UI komponenter</div>
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <div class="hero-pill">
+                        <strong>Designprincip</strong>
+                        En ren yta med djup lila bakgrund som låter innehållet komma fram.
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- TYPOGRAPHY -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Typografi</h2>
+                <p class="section-subtitle">Inter som bas och Courgette för varumärket.</p>
+            </div>
+
+            <div class="type-grid">
+                <div class="type-card type-sample">
+                    <div class="type-label">Rubriker</div>
+                    <h1>Rubrik nivå ett</h1>
+                    <h2>Rubrik nivå två</h2>
+                    <h3>Rubrik nivå tre</h3>
+
+                    <div class="type-label" style="margin-top: 14px;">Brödtext</div>
+                    <p class="type-body">
+                        Det här är ett exempel på brödtext i Lexiqo. Texten ska vara lätt att läsa,
+                        gärna lite luftig och med mjukt radavstånd. Tonen är varm, modern och tydlig.
+                    </p>
+                </div>
+
+                <div class="type-card">
+                    <div class="type-label">Fontspecifikation</div>
+                    <div class="type-meta-row">
+                        <div>
+                            <strong>Primär font</strong><br>
+                            Inter<br>
+                            Vikter: 400, 500, 600, 700
+                        </div>
+                        <div>
+                            <strong>Dekorativ font</strong><br>
+                            Courgette<br>
+                            Endast rubriker och logotyp
+                        </div>
+                    </div>
+
+                    <div class="type-label" style="margin-top: 14px;">Kodexempel</div>
+                    <div class="mono" style="font-size: 12px; background:#F7F4FF; border-radius: 10px; padding: 8px 10px;">
+                        body { font-family: "Inter", system-ui, sans-serif; }<br>
+                        .logo { font-family: "Courgette", cursive; }
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COLORS -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Färger</h2>
+                <p class="section-subtitle">Huvudpalett med lila brandfärger och neutrala toner.</p>
+            </div>
+
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="color-swatch-top" style="background: #3A0CA3;"></div>
+                    <div class="color-swatch-body">
+                        <div class="color-name">Deep Purple</div>
+                        <div class="color-hex">#3A0CA3</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-top" style="background: #5A36C8;"></div>
+                    <div class="color-swatch-body">
+                        <div class="color-name">Primary Purple</div>
+                        <div class="color-hex">#5A36C8</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-top" style="background: #8F6BFF;"></div>
+                    <div class="color-swatch-body">
+                        <div class="color-name">Vivid Purple</div>
+                        <div class="color-hex">#8F6BFF</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-top" style="background: #C7B6FF;"></div>
+                    <div class="color-swatch-body">
+                        <div class="color-name">Soft Lilac</div>
+                        <div class="color-hex">#C7B6FF</div>
+                    </div>
+                </div>
+
+                <div class="color-swatch">
+                    <div class="color-swatch-top" style="background: #F7F4FF;"></div>
+                    <div class="color-swatch-body">
+                        <div class="color-name">Background Light</div>
+                        <div class="color-hex">#F7F4FF</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-top" style="background: #FFFFFF; border-bottom:1px solid #EEE;"></div>
+                    <div class="color-swatch-body">
+                        <div class="color-name">Surface Light</div>
+                        <div class="color-hex">#FFFFFF</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-top" style="background: #0D0914;"></div>
+                    <div class="color-swatch-body">
+                        <div class="color-name">Background Dark</div>
+                        <div class="color-hex">#0D0914</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-top" style="background: #1A1427;"></div>
+                    <div class="color-swatch-body">
+                        <div class="color-name">Surface Dark</div>
+                        <div class="color-hex">#1A1427</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BUTTONS -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Knappar</h2>
+                <p class="section-subtitle">Primära och sekundära knappar i Lexiqo stil.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Exempel</div>
+                    <div class="card-badge">Interactive states</div>
+                </div>
+                <p class="section-subtitle" style="margin-bottom: 10px;">Hover effekter, mjuka hörn och tydlig hierarki.</p>
+                <div class="button-row">
+                    <button class="btn btn-primary">Primär knapp</button>
+                    <button class="btn btn-secondary">Sekundär knapp</button>
+                    <button class="btn btn-ghost">Tertiär knapp</button>
+                    <button class="btn btn-disabled" disabled>Inaktiv knapp</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CARDS -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Cards</h2>
+                <p class="section-subtitle">Paneler som används i dashboard och quiz.</p>
+            </div>
+
+            <div class="cards-grid">
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-title">Snabb statistik</div>
+                        <span class="card-badge">Dashboard</span>
+                    </div>
+                    <div class="stat-large">24</div>
+                    <div class="stat-label">Genomförda förhör senaste månaden.</div>
+                    <div class="pill-row">
+                        <span class="pill">Bäst i veckan</span>
+                        <span class="pill">Stark trend</span>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-title">Förhör</div>
+                        <span class="card-badge">Quiz</span>
+                    </div>
+                    <p class="section-subtitle" style="margin-bottom: 10px;">
+                        Välj listor, antal frågor och riktning. Känslan ska vara enkel och uppmuntrande.
+                    </p>
+                    <button class="btn btn-primary">Starta nytt förhör</button>
+                </article>
+
+                <article class="card">
+                    <div class="card-header">
+                        <div class="card-title">Lärande</div>
+                        <span class="card-badge">Tips</span>
+                    </div>
+                    <p class="section-subtitle">
+                        Korta texter i cards ska motivera användaren att fortsätta och visa nästa steg.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <!-- FORMS -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Formulärfält</h2>
+                <p class="section-subtitle">Inputs med lila fokus och mjuka skuggor.</p>
+            </div>
+
+            <div class="form-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Exempel formulär</div>
+                    </div>
+                    <div class="field">
+                        <label for="name">Namn på ordlista</label>
+                        <small>Använd tydliga och minnesvänliga namn.</small>
+                        <input id="name" type="text" class="text-input" placeholder="Till exempel Resa till London">
+                    </div>
+
+                    <div class="field">
+                        <label for="direction">Riktning</label>
+                        <select id="direction" class="select-input">
+                            <option>Svenska till engelska</option>
+                            <option>Engelska till svenska</option>
+                            <option>Blanda båda</option>
+                        </select>
+                    </div>
+
+                    <div class="field" style="margin-bottom: 0;">
+                        <label for="count">Antal frågor</label>
+                        <input id="count" type="number" class="text-input" value="10" min="3" max="50">
+                    </div>
+
+                    <div style="margin-top: 14px; display:flex; gap:8px;">
+                        <button class="btn btn-primary">Spara inställningar</button>
+                        <button class="btn btn-ghost">Avbryt</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Principer</div>
+                    </div>
+                    <ul style="margin:0; padding-left:18px; font-size:14px; color:var(--text-muted);">
+                        <li>Inga hårda kanter, alltid rundade fält.</li>
+                        <li>Lila fokusring när fältet är aktivt.</li>
+                        <li>Labels ska vara tydliga och korta.</li>
+                        <li>Små hjälpttexter kan förklara mer vid behov.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- DARK MODE PREVIEW -->
+        <section class="dark-section">
+            <div class="dark-header">
+                <div>
+                    <h2 style="margin:0 0 4px; font-size:20px;">Dark mode preview</h2>
+                    <p style="margin:0; font-size:13px; color:var(--text-muted-dark);">
+                        Exempel på hur dashboard kort kan se ut i mörkt läge.
+                    </p>
+                </div>
+                <span class="dark-tag">Dark theme</span>
+            </div>
+
+            <div class="dark-grid">
+                <div class="dark-card">
+                    <h3>Förhör i dag</h3>
+                    <p>Du har genomfört ett förhör med 82 procent rätt. Fortsätt så här så förstärks din streak.</p>
+                    <div class="dark-meter">
+                        <div class="dark-meter-fill"></div>
+                    </div>
+                </div>
+
+                <div class="dark-card">
+                    <h3>Exempel knappar</h3>
+                    <p>Primär knapp får gradient och tydlig höjd. Sekundär knapp har tunn linje.</p>
+                    <div class="dark-buttons" style="margin-top:10px;">
+                        <button class="btn-dark-primary">Starta nytt förhör</button>
+                        <button class="btn-dark-secondary">Visa historik</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+</body>
+</html>

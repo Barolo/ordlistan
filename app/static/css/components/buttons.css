@@ -1,0 +1,119 @@
+/* =====================================================
+   BUTTONS – Lexiqo
+   Purpose: Actions without visual noise
+   ===================================================== */
+
+/* ---------------------------
+   Base button reset
+   --------------------------- */
+
+.btn {
+    appearance: none;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    line-height: 1;
+    border-radius: var(--radius-md);
+    padding: 10px 18px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+
+    /* Stability */
+    transform: none !important;
+    box-shadow: none !important;
+
+    transition:
+        background-color var(--transition-base),
+        color var(--transition-base),
+        border-color var(--transition-base),
+        opacity var(--transition-fast);
+}
+
+/* ---------------------------
+   Primary button
+   --------------------------- */
+
+.btn-primary {
+    background: var(--color-primary-600);
+    color: var(--color-text-inverse);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+    background: var(--color-primary-700);
+}
+
+/* ---------------------------
+   Secondary button
+   --------------------------- */
+
+.btn-secondary {
+    background: transparent;
+    color: var(--color-primary-600);
+    border: 1px solid var(--color-primary-600);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+    background: rgba(91, 46, 229, 0.08);
+}
+
+/* ---------------------------
+   Ghost / tertiary button
+   --------------------------- */
+
+.btn-ghost {
+    background: transparent;
+    color: var(--color-text-secondary);
+    padding: 8px 12px;
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+    color: var(--color-text-primary);
+    background: rgba(0, 0, 0, 0.04);
+}
+
+/* Dark mode ghost fix */
+[data-theme="dark"] .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* ---------------------------
+   Destructive button
+   --------------------------- */
+
+.btn-danger {
+    background: var(--color-danger);
+    color: var(--color-text-inverse);
+}
+
+.btn-danger:hover,
+.btn-danger:focus-visible {
+    opacity: 0.9;
+}
+
+/* ---------------------------
+   Disabled state
+   --------------------------- */
+
+.btn:disabled,
+.btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ---------------------------
+   Full width helper
+   --------------------------- */
+
+.btn-full {
+    width: 100%;
+}

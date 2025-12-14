@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/stats.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="stats-page">
+
+    <!-- HEADER -->
+    <header class="stats-header">
+        <h1>Statistik</h1>
+        <p class="stats-subtitle">För {{ current_user.username }}</p>
+    </header>
+
+    <!-- RESULTAT ÖVER TID -->
+    <section class="card stats-card">
+        <h2>Resultat över tid</h2>
+        <canvas id="quizHistoryChart"></canvas>
+    </section>
+
+    <!-- SVÅRASTE ORD -->
+    <section class="card stats-card">
+        <h2>Svåraste ord</h2>
+
+        <table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Ord</th>
+                    <th>Översättning</th>
+                    <th>Fel</th>
+                    <th>Rätt</th>
+                    <th>Senast fel</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for w in hardest_words %}
+                <tr>
+                    <td>{{ w.original }}</td>
+                    <td>{{ w.translation }}</td>
+                    <td>{{ w.wrong }}</td>
+                    <td>{{ w.correct }}</td>
+                    <td>{{ w.last_wrong }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- STREAK -->
+    <section class="card stats-card">
+        <h2>Streak</h2>
+        <div class="streak-grid">
+            <div class="streak-item">
+                <span class="streak-value">{{ streak_info.current }}</span>
+                <span class="streak-label">Nuvarande</span>
+            </div>
+            <div class="streak-item">
+                <span class="streak-value">{{ streak_info.longest }}</span>
+                <span class="streak-label">Längsta</span>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const quizData = {
+    labels: {{ quiz_labels | tojson }},
+    scores: {{ quiz_scores | tojson }}
+};
+
+const ctx = document.getElementById("quizHistoryChart");
+
+new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: quizData.labels,
+        datasets: [{
+            label: "Antal rätt",
+            data: quizData.scores,
+            borderWidth: 3,
+            tension: 0.3
+        }]
+    }
+});
+</script>
+
+{% endblock %}

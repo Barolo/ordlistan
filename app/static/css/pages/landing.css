@@ -1,0 +1,493 @@
+/* =====================================================
+   LANDING PAGE – Lexiqo
+   ===================================================== */
+
+
+/* -----------------------------------------------------
+   TYPOGRAPHY OVERRIDES (landing only)
+   ----------------------------------------------------- */
+
+.landing-hero h1,
+.section h2,
+.level-card h3,
+.feature-row h3,
+.cta-after-features h2 {
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+
+/* -----------------------------------------------------
+   HERO
+   ----------------------------------------------------- */
+
+.landing-hero {
+    width: 100%;
+    min-height: 380px;
+    background: url("/static/img/hero_bg.png") center / cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-7) var(--space-4);
+    position: relative;
+    text-align: center;
+    color: var(--color-text-inverse);
+}
+
+.landing-hero::before {
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 20, 60, 0.45);
+}
+
+.hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    color: var(--color-text-inverse);
+}
+
+/* Hero headings must always be white */
+.landing-hero h1,
+.landing-hero h2
+.landing-hero p {
+    color: var(--color-text-inverse);
+}
+
+.hero-logo {
+    height: 80px;
+    margin-bottom: var(--space-4);
+    opacity: 0.95;
+}
+
+.hero-inner h1 {
+    font-size: 2.8rem;
+    margin-bottom: var(--space-3);
+    text-shadow: 0 3px 12px rgba(0,0,0,0.35);
+}
+
+.hero-inner p {
+    color: var(--color-text-inverse);
+    font-size: 1.25rem;
+    opacity: 1;
+    margin-bottom: var(--space-5);
+}
+
+
+/* -----------------------------------------------------
+   HERO BUTTONS
+   ----------------------------------------------------- */
+
+.hero-buttons {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    position: relative;
+    z-index: 2;
+}
+
+.btn-hero-main,
+.btn-hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    min-width: 200px;
+    height: 48px;
+
+    font-family: var(--font-base);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition-base),
+        color var(--transition-base),
+        border-color var(--transition-base);
+}
+
+/* Primary – Skapa konto */
+.btn-hero-main,
+.btn-hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 200px;
+    height: 48px;
+
+    padding: 0 var(--space-5);
+    border-radius: var(--radius-md);
+
+    font-family: var(--font-base);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+
+    background-color: rgba(255,255,255,0.14);
+    color: var(--color-text-inverse);
+    border: 1px solid rgba(255,255,255,0.45);
+
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition-base),
+        border-color var(--transition-base);
+}
+
+.btn-hero-main:hover,
+.btn-hero-secondary:hover {
+    background-color: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.65);
+    text-decoration: none;
+}
+
+.btn-hero-main:focus-visible,
+.btn-hero-secondary:focus-visible {
+    outline: none;
+    border-color: var(--color-text-inverse);
+}
+
+
+/* -----------------------------------------------------
+   PAGE CONTAINER
+   ----------------------------------------------------- */
+
+.page-container {
+    max-width: 1100px;
+    margin: var(--space-7) auto;
+    padding: 0 var(--space-4);
+}
+
+
+/* -----------------------------------------------------
+   LEVEL CARDS
+   ----------------------------------------------------- */
+
+.level-grid {
+    display: flex;
+    gap: var(--space-5);
+    justify-content: space-between;
+    margin-top: var(--space-5);
+}
+
+.level-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    padding-bottom: var(--space-6);
+    width: 280px;
+    height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    border: 1px solid rgba(20, 18, 40, 0.12);
+    box-shadow: var(--shadow-card);
+}
+
+.level-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.level-card h3 {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-1);
+    font-size: var(--font-size-lg);
+}
+
+.level-card p {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: var(--line-height-base);
+    margin-bottom: auto; /* trycker ner knappen */
+    max-width: 220px;
+}
+
+/*-----------------------------------------------------
+   LEVEL BUTTONS
+   ----------------------------------------------------- */
+.level-start-btn,
+.level-start-btn:hover,
+.level-start-btn:focus,
+.level-start-btn:active {
+    text-decoration: none;
+}
+
+   .level-start-btn {
+    margin-top: auto;   /* trycker ner knappen */
+    margin-bottom: 0;   /* exakt mot kortets padding */
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 46px;
+    min-width: 200px;
+
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(20, 18, 40, 0.16);
+
+    background-color: var(--color-surface-elevated);
+    color: var(--color-text-primary);
+
+    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition-base),
+        border-color var(--transition-base);
+}
+
+.level-start-btn:hover {
+    background-color: rgba(125, 79, 224, 0.06);
+    border-color: rgba(125, 79, 224, 0.35);
+    color: var(--color-primary);    
+}
+
+
+.level-icon {
+    font-size: 46px;
+    padding: 14px;
+}
+
+.level-icon.easy { color: var(--color-success); }
+.level-icon.medium { color: var(--color-warning); }
+.level-icon.hard { color: var(--color-danger); }
+
+
+/* -----------------------------------------------------
+   FEATURES
+   ----------------------------------------------------- */
+
+.features {
+    margin-top: calc(var(--space-7) + var(--space-3));
+}
+
+.features-horizontal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+}
+
+.feature-row {
+    display: flex;
+    gap: var(--space-5);
+    padding: var(--space-5) var(--space-6);
+
+    background: rgba(255,255,255,0.85);
+    border-radius: var(--radius-lg);
+
+    border: 1px solid rgba(20, 18, 40, 0.14);
+    backdrop-filter: blur(8px);
+}
+
+
+.feature-icon {
+    font-size: 40px;
+    color: rgba(91, 46, 229, 0.7);
+}
+
+.feature-text h4 {
+    font-size: 1.35rem;
+    margin-bottom: var(--space-1);
+}
+
+.feature-text p {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+}
+
+
+/* -----------------------------------------------------
+   CTA
+   ----------------------------------------------------- */
+.cta-after-features {
+    max-width: 1100px;
+    margin: 90px auto 90px;
+    padding: var(--space-7) var(--space-6);
+
+    border-radius: 26px;
+
+    background: radial-gradient(
+        circle at top left,
+        rgba(125,79,224,0.14),
+        var(--color-surface-elevated) 65%
+    );
+
+    border: 1px solid rgba(20,18,40,0.08);
+
+    text-align: center;
+}
+
+.cta-after-features p {
+    max-width: 620px;
+    margin: var(--space-4) auto var(--space-6);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+}
+
+.cta-btn-row {
+    margin-top: var(--space-5);
+}
+
+.btn-main-cta,
+.btn-main-cta:hover,
+.btn-main-cta:focus,
+.btn-main-cta:active {
+    color: var(--color-text-inverse);
+    text-decoration: none;
+}
+
+.btn-main-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 200px;
+    height: 48px;
+
+    padding: 0 var(--space-5);
+
+    border-radius: var(--radius-lg);
+
+    background-color: rgba(125, 79, 224, 0.85);
+    color: var(--color-text-inverse);
+
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+
+    border: 1px solid rgba(255,255,255,0.25);
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition-base),
+        border-color var(--transition-base);
+}
+
+.btn-main-cta:hover {
+    background-color: var(--color-primary-hover);
+    border-color: rgba(255,255,255,0.8);
+    color: var(--color-text-inverse);
+}
+
+/* -----------------------------------------------------
+   FOOTER
+   ----------------------------------------------------- */
+.about-lexiqo {
+    margin-top: var(--space-7);
+    padding: 0 var(--space-4);
+}
+
+.about-lexiqo-inner {
+    max-width: 720px;
+    margin: 0 auto;   /* <-- detta är nyckeln */
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+}
+
+.about-lexiqo p {
+    margin-bottom: var(--space-4);
+    line-height: 1.7;
+    color: var(--color-text-secondary)
+}
+
+.about-lexiqo h2 {
+    margin-bottom: var(--space-4);
+}
+
+.footer {
+    margin-top: var(--space-7);
+    padding-top: var(--space-4);
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+}
+
+.footer-heart {
+    color: var(--color-danger);
+}
+
+
+
+.hero-beta-note {
+    margin-top: var(--space-4);
+    max-width: 520px;
+
+    font-size: 0.95rem;
+    line-height: 1.5;
+
+    color: rgba(255, 255, 255, 0.85);
+    opacity: 0.9;
+}
+
+
+/* -----------------------------------------------------
+   RESPONSIVE
+   ----------------------------------------------------- */
+
+.about-text-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    .hero-inner h1 { font-size: 2.2rem; }
+    .hero-inner p { font-size: 1rem; }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .level-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature-row {
+        flex-direction: column;
+        padding: var(--space-5);
+    }
+
+    .cta-btn-row {
+        flex-direction: column;
+    }
+
+    .about-text-desktop {
+        display: none;
+    }
+
+    .about-text-mobile {
+        display: block;
+    }
+
+    .about-lexiqo-inner {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}

@@ -1,0 +1,154 @@
+/* =====================================================
+   LAYOUT SYSTEM – Lexiqo
+   Structural layout only
+   No colors, no shadows, no motion
+   ===================================================== */
+
+/* ---------------------------
+   Page wrapper
+   --------------------------- */
+
+.page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-4);
+}
+
+/* Narrow pages (auth, onboarding, simple views) */
+.page--narrow {
+    max-width: 640px;
+}
+
+/* Full-width pages (hero, marketing) */
+.page--wide {
+    max-width: none;
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+}
+
+/* ---------------------------
+   Sections
+   --------------------------- */
+
+.section {
+    margin-bottom: var(--space-7);
+}
+
+.section:last-child {
+    margin-bottom: 0;
+}
+
+/* Section header (title + subtitle/actions) */
+.section-header {
+    margin-bottom: var(--space-5);
+}
+
+.section-header h1,
+.section-header h2 {
+    margin-bottom: var(--space-2);
+}
+
+.section-header .subtitle {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+/* Optional right-aligned actions */
+.section-header-actions {
+    margin-top: var(--space-3);
+}
+
+/* ---------------------------
+   Grids
+   --------------------------- */
+
+/* Default responsive grid */
+.section-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-5);
+}
+
+/* Tight grid (lists, compact dashboards) */
+.section-grid--tight {
+    gap: var(--space-4);
+}
+
+/* Loose grid (marketing, onboarding) */
+.section-grid--loose {
+    gap: var(--space-6);
+}
+
+/* Fixed columns */
+.section-grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.section-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+    .section-grid--2,
+    .section-grid--3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------------------------
+   Stacks (vertical spacing)
+   --------------------------- */
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.stack--tight {
+    gap: var(--space-2);
+}
+
+.stack--loose {
+    gap: var(--space-6);
+}
+
+/* ---------------------------
+   Utility layout helpers
+   --------------------------- */
+
+.centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.space-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.align-end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ---------------------------
+   Hero layout helpers
+   --------------------------- */
+
+.hero {
+    padding: var(--space-7) 0;
+    text-align: center;
+}
+
+.hero-title {
+    margin-bottom: var(--space-3);
+}
+
+.hero-subtitle {
+    max-width: 680px;
+    margin: 0 auto var(--space-5);
+    color: var(--color-text-secondary);
+}

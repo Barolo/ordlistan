@@ -1,0 +1,62 @@
+{% extends "base_auth.html" %}
+{% block title %}Logga in{% endblock %}
+
+{% block content_inner %}
+<div class="auth-card">
+
+    <!-- LEXIQO LOGOTYPE -->
+    <div class="login-logo">
+        <a href="{{ url_for('public.landing') }}" class="auth-logo-link">
+            <img
+                src="{{ url_for('static', filename='img/lexiqo_logo.png') }}"
+                alt="Lexiqo"
+                class="auth-logo"
+            >
+        </a>
+    </div>
+
+    <h1 class="auth-title">Logga in</h1>
+    <p class="auth-subtitle">Logga in för att fortsätta</p>
+
+    <form method="POST" action="{{ url_for('auth.login') }}">
+
+        <div class="auth-input-wrapper">
+            <i class="fa fa-user input-icon"></i>
+            <input
+                type="text"
+                name="email_or_username"
+                class="form-control auth-input"
+                placeholder="E-post eller användarnamn"
+                required
+            >
+        </div>
+
+        <div class="auth-input-wrapper">
+            <i class="fa fa-lock input-icon"></i>
+            <input
+                type="password"
+                name="password"
+                class="form-control auth-input"
+                placeholder="Lösenord"
+                required
+            >
+        </div>
+
+        <button type="submit" class="primary-btn">
+            Logga in
+        </button>
+
+    </form>
+
+    <div class="auth-actions-row">
+        <a href="{{ url_for('auth.forgot_password') }}" class="auth-link auth-link-left">
+            Glömt lösenord?
+        </a>
+
+        <a href="{{ url_for('auth.register') }}" class="auth-link" auth-link-right>
+            Registrera dig
+        </a>
+    </div>
+
+</div>
+{% endblock %}

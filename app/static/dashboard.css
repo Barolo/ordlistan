@@ -1,0 +1,276 @@
+/* ===================================================================
+   LEXIQO – DASHBOARD THEME (Overflow-Safe + No-Movement Cards)
+   ===================================================================*/
+
+
+/* ---------------------------------------------------------
+   1. VARIABLES (Light + Dark)
+   ---------------------------------------------------------*/
+
+:root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+
+    --hero-bg: #4A1D6C;
+    --hero-text: #ffffff;
+
+    --card-bg: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+
+    --accent-bg: #f4ecff;
+    --accent-bg-hover: #eadcff;
+    --accent-text: #4A1D6C;
+
+    --button-bg: #4A1D6C;
+    --button-bg-hover: #3B1658;
+
+    --placeholder-bg: #f0e7ff;
+
+    --shadow: 0 6px 18px rgba(0,0,0,0.12);
+    --radius: 16px;
+}
+
+.dark-mode {
+    --bg: #121212;
+    --text: #f0f0f0;
+
+    --card-bg: #1a1a1a;
+    --card-border: rgba(255,255,255,0.08);
+
+    --accent-bg: #2a2335;
+    --accent-bg-hover: #3a2f45;
+    --accent-text: #d8c3ff;
+
+    --placeholder-bg: #2a2335;
+
+    --shadow: 0 6px 25px rgba(0,0,0,0.65);
+}
+
+
+/* ---------------------------------------------------------
+   2. PAGE SAFETY (Prevent Overflow)
+   ---------------------------------------------------------*/
+
+html, body {
+    overflow-x: hidden !important;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+
+/* ---------------------------------------------------------
+   3. HERO SECTION
+   ---------------------------------------------------------*/
+
+.dashboard-hero {
+    background: var(--hero-bg);
+    color: var(--hero-text);
+    padding: 32px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 34px;
+    overflow: hidden;
+}
+
+.dashboard-hero h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+
+/* ---------------------------------------------------------
+   4. BADGE STRIP
+   ---------------------------------------------------------*/
+
+.badge-strip {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+.badge-placeholder {
+    flex: 0 0 auto;
+    width: 56px;
+    height: 56px;
+    background: var(--placeholder-bg);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    opacity: 0.85;
+}
+
+
+/* ---------------------------------------------------------
+   5. CARD NAVIGATION GRID
+   ---------------------------------------------------------*/
+
+.card-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.card-nav-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    text-decoration: none;
+    color: var(--text);
+    transition: box-shadow 0.25s ease;
+}
+
+.card-nav-item:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.card-nav-icon {
+    font-size: 2.3rem;
+    margin-bottom: 12px;
+}
+
+/* Today-word special */
+.card-today-word {
+    background: linear-gradient(135deg, var(--hero-bg), var(--accent-bg));
+    color: var(--hero-text);
+}
+
+
+/* ---------------------------------------------------------
+   6. METER CARD
+   ---------------------------------------------------------*/
+
+.card-meter {
+    text-align: center;
+}
+
+.card-meter-svg {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.card-meter-svg svg {
+    width: 70px;
+    height: 70px;
+}
+
+.card-meter-svg circle:nth-child(2) {
+    transition: stroke-dashoffset 0.9s ease;
+}
+
+
+/* ---------------------------------------------------------
+   7. STANDARD DASH CARDS
+   ---------------------------------------------------------*/
+
+.dash-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.card-header-purple {
+    background: var(--hero-bg);
+    color: var(--hero-text);
+    padding: 14px 20px;
+}
+
+
+/* ---------------------------------------------------------
+   8. WORDLIST CARDS
+   ---------------------------------------------------------*/
+
+.wordlist-dashboard-wrapper { max-width: 100%; }
+
+.dash-wordlist-card {
+    background: var(--accent-bg);
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--accent-text);
+    display: block;
+}
+
+.dash-wordlist-card:hover {
+    background: var(--accent-bg-hover);
+}
+
+.dash-wordlist-add {
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+
+/* ---------------------------------------------------------
+   9. QUIZ SECTION
+   ---------------------------------------------------------*/
+
+.quiz-body {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.quiz-right img {
+    max-width: 140px;
+    width: 100%;
+    height: auto;
+}
+
+.quiz-start-btn:hover {
+    transform: translateY(-2px);
+}
+
+
+/* ---------------------------------------------------------
+   10. BUTTON HOVERS (allowed movement)
+   ---------------------------------------------------------*/
+
+.stats-btn:hover {
+    transform: translateY(-1px);
+}
+
+.show-more-btn:hover {
+    transform: translateY(-1px);
+}
+
+
+/* ---------------------------------------------------------
+   11. HARD OVERRIDE: Prevent movement on all cards
+   ---------------------------------------------------------*/
+
+.card-nav-item,
+.dash-card,
+.dash-wordlist-card,
+.card-today-word,
+.card-meter {
+    transform: none !important;
+}
+
+.card-nav-item:hover,
+.dash-card:hover,
+.dash-wordlist-card:hover,
+.card-today-word:hover,
+.card-meter:hover {
+    transform: none !important;
+}

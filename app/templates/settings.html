@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Inställningar{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/settings.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="settings-page">
+
+    <!-- HERO -->
+    <div class="settings-hero">
+        <div>
+            <h2>Inställningar</h2>
+            <p>Hantera ditt konto och appens utseende.</p>
+        </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="settings-grid">
+
+        <!-- Konto -->
+        <div class="settings-card">
+            <div class="settings-icon">👤</div>
+            <h3>Konto</h3>
+            <p>Ändra användarnamn eller e-postadress.</p>
+            <a href="{{ url_for('users.profile') }}" class="settings-link">
+                Öppna →
+            </a>
+        </div>
+
+        <!-- Lösenord -->
+        <div class="settings-card">
+            <div class="settings-icon">🔐</div>
+            <h3>Lösenord</h3>
+            <p>Uppdatera ditt lösenord.</p>
+            <a href="{{ url_for('auth.change_password') }}" class="settings-link">
+                Ändra →
+            </a>
+        </div>
+
+        <!-- Tema -->
+        <div class="settings-card">
+            <div class="settings-icon">🌓</div>
+            <h3>Tema</h3>
+            <p>Växla mellan Light och Dark mode.</p>
+            <button
+                type="button"
+                class="settings-link"
+                id="themeToggle"
+            >
+                Byt tema →
+            </button>
+        </div>
+
+        <!-- Notiser (framtid) -->
+        <div class="settings-card">
+            <div class="settings-icon">🔔</div>
+            <h3>Notiser</h3>
+            <p>Påminnelser och dagliga ord.</p>
+            <span class="settings-disabled">
+                Kommer snart
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

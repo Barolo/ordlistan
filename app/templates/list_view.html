@@ -1,80 +1,151 @@
 {% extends "base.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/lists.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="main-content" style="max-width: 800px; margin: 0 auto;">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>{{ wordlist.name }}</h2>
+<div class="list-view-container">
 
-        <form method="POST" action="{{ url_for('main.rename_list', list_id=wordlist.id) }}" class="d-flex">
-            <input type="text" name="name" class="form-control form-control-sm" value="{{ wordlist.name }}">
-            <button class="btn btn-primary btn-sm ms-2">Byt namn</button>
+    <!-- =========================
+         HEADER
+    ========================== -->
+    <div class="list-view-header">
+        <h1>{{ wordlist.name }}</h1>
+
+        <form method="POST"
+              action="{{ url_for('lists.rename_list', list_id=wordlist.id) }}"
+              class="d-flex gap-2">
+            <input
+                type="text"
+                name="name"
+                value="{{ wordlist.name }}"
+                class="form-control form-control-sm"
+                required
+            >
+            <button class="btn-small">Byt namn</button>
         </form>
     </div>
 
-    <hr>
 
-    <!-- FUNKTIONSKNAPPAR -->
-    <div class="btn-group w-100 mb-3">
-        <a href="{{ url_for('main.quiz_start_from_list', list_id=wordlist.id) }}"
-           class="btn btn-success w-100">Starta förhör</a>
+    <!-- =========================
+         ACTIONS
+    ========================== -->
+    <div class="card mb-3">
+        <a href="{{ url_for('quiz.quiz_settings', preselect_list=wordlist.id) }}"
+           class="btn-primary w-100 text-center">
+            ▶ Starta förhör
+        </a>
     </div>
 
-    <h4 class="mt-4">Lägg till ord</h4>
-    <form method="POST" action="{{ url_for('main.add_word', list_id=wordlist.id) }}" class="row g-2 mb-4">
-        <div class="col-md-5">
-            <input type="text" name="original" class="form-control" placeholder="Svenska" required>
-        </div>
-        <div class="col-md-5">
-            <input type="text" name="translation" class="form-control" placeholder="Översättning" required>
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-primary w-100">Lägg till</button>
-        </div>
-    </form>
 
-    <h4>Ord i listan ({{ words|length }})</h4>
+    <!-- =========================
+         ADD WORD
+    ========================== -->
+    <div class="card mb-4">
+        <h3>Lägg till ord</h3>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Original</th>
-                <th>Översättning</th>
-                <th>Rätt</th>
-                <th>Fel</th>
-                <th>Senast fel</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for w in words %}
-            <tr>
-                <td>{{ w.original }}</td>
-                <td>{{ w.translation }}</td>
-                <td>{{ w.correct_count }}</td>
-                <td>{{ w.wrong_count }}</td>
-                <td>
-                    {% if w.last_wrong %}
-                        {{ w.last_wrong.strftime("%Y-%m-%d") }}
-                    {% else %}
-                        –
-                    {% endif %}
-                </td>
-                <td>
-                    <a href="{{ url_for('main.delete_word', word_id=w.id) }}"
-                       class="btn btn-sm btn-danger">Ta bort</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <form method="POST"
+              action="{{ url_for('lists.add_word', list_id=wordlist.id) }}"
+              class="add-word-form">
 
-    <h4 class="mt-4">Skicka lista till annan användare</h4>
+            <input
+                type="text"
+                name="original"
+                placeholder="Svenska"
+                required
+            >
 
-    <form method="POST" action="{{ url_for('main.share_list', list_id=wordlist.id) }}" class="d-flex mb-5">
-        <input type="email" name="email" placeholder="E-postadress" class="form-control" required>
-        <button class="btn btn-secondary ms-2">Skicka</button>
-    </form>
+            <input
+                type="text"
+                name="translation"
+                placeholder="Översättning"
+                required
+            >
+
+            <button class="btn-primary">
+                Lägg till
+            </button>
+        </form>
+    </div>
+
+
+    <!-- =========================
+         WORD TABLE
+    ========================== -->
+    <div class="card words-card">
+
+        <h3>Ord i listan ({{ words|length }})</h3>
+
+        {% if words %}
+        <table class="words-table">
+            <thead>
+                <tr>
+                    <th>Original</th>
+                    <th>Översättning</th>
+                    <th>Rätt</th>
+                    <th>Fel</th>
+                    <th>Senast fel</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for w in words %}
+                <tr>
+                    <td>{{ w.original }}</td>
+                    <td>{{ w.translation }}</td>
+                    <td>{{ w.correct_count }}</td>
+                    <td>{{ w.wrong_count }}</td>
+                    <td>
+                        {% if w.last_wrong %}
+                            {{ w.last_wrong.strftime("%Y-%m-%d") }}
+                        {% else %}
+                            –
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('lists.delete_word', word_id=w.id) }}"
+                           class="table-btn delete"
+                           title="Ta bort">
+                            🗑
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="text-muted">Inga ord ännu i listan.</p>
+        {% endif %}
+    </div>
+
+
+    <!-- =========================
+         SHARE LIST
+    ========================== -->
+    <div class="card mt-4">
+        <h3>Dela ordlista</h3>
+
+        <form method="POST"
+              action="{{ url_for('lists.share_list', list_id=wordlist.id) }}"
+              class="d-flex gap-2">
+
+            <input
+                type="email"
+                name="email"
+                placeholder="E-postadress"
+                class="form-control"
+                required
+            >
+
+            <button class="btn-small">
+                Skicka
+            </button>
+        </form>
+    </div>
 
 </div>
+
 {% endblock %}

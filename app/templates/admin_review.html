@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Admin – Granska ord{% endblock %}
+
+{% block content %}
+
+<div class="page-container" style="max-width: 1100px;">
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+    <div class="page-header mb-4">
+        <h1>Ord som väntar på godkännande</h1>
+        <p class="text-muted">
+            {% if pending %}
+                {{ pending|length }} ord väntar på granskning
+            {% else %}
+                Inga ord att granska just nu
+            {% endif %}
+        </p>
+    </div>
+
+
+    <!-- =====================================================
+         REVIEW TABLE
+         ===================================================== -->
+    <div class="card">
+
+        <div class="card-header card-header-purple">
+            <h5 class="mb-0">Granska ord</h5>
+        </div>
+
+        <div class="card-body">
+
+            {% if pending %}
+
+                <div class="table-responsive">
+                    <table class="stats-table">
+                        <thead>
+                            <tr>
+                                <th>Engelska</th>
+                                <th>Svenska</th>
+                                <th>Lista</th>
+                                <th>Användare</th>
+                                <th>Åtgärder</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for w in pending %}
+                            <tr>
+                                <td>{{ w.original }}</td>
+                                <td>{{ w.translation }}</td>
+                                <td>{{ w.word_list.name }}</td>
+                                <td>{{ w.word_list.user.username }}</td>
+                                <td style="white-space: nowrap;">
+                                    <a href="{{ url_for('admin.approve_word', word_id=w.id) }}"
+                                       class="profile-btn primary"
+                                       style="padding:6px 12px; font-size:0.85rem;">
+                                        Godkänn
+                                    </a>
+
+                                    <a href="{{ url_for('admin.reject_word', word_id=w.id) }}"
+                                       class="profile-btn"
+                                       style="padding:6px 12px; font-size:0.85rem;">
+                                        Neka
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            {% else %}
+                <p class="stats-empty">
+                    Det finns inga ord att granska. 🎉
+                </p>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

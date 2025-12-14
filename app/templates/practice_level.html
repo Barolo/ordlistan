@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+{% block title %}Träna engelska – {{ level_label }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/quiz.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="quiz-page">
+
+    <!-- QUIZ HERO -->
+    <div class="quiz-hero" id="quizHero">
+        <div class="quiz-hero-overlay"></div>
+
+        <h1 class="quiz-hero-title">
+            Nivå: {{ level_label }}
+        </h1>
+        <p class="quiz-hero-sub">
+            {{ total_questions }} slumpade ord
+        </p>
+    </div>
+
+    <!-- HEADER + PROGRESS -->
+    <div class="quiz-header" id="quizHeader">
+        <p class="quiz-level-label">Förhör (publikt)</p>
+
+        <div class="quiz-progress-wrapper">
+            <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="quiz-progress-text">
+                <span id="currentIndex">1</span> /
+                <span id="totalIndex">{{ total_questions }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ CARD -->
+    <div class="quiz-card-modern" id="quizCard">
+
+        <a href="{{ url_for('public.landing') }}" class="quiz-cancel-top">
+            Avbryt
+        </a>
+
+        <div class="quiz-question-label">
+            Översätt ordet
+        </div>
+
+        <div class="quiz-question-text" id="questionText"></div>
+
+        <form id="quizForm" autocomplete="off">
+            <input
+                type="text"
+                id="answerInput"
+                class="quiz-input"
+                placeholder="Skriv ditt svar här…"
+            >
+            <button type="submit" class="quiz-submit-btn">
+                Svara
+            </button>
+        </form>
+
+        <div class="quiz-feedback" id="feedback"></div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="quiz-summary" id="quizSummary" hidden></div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const QUIZ_DATA = {{ quiz_data | tojson | safe }};
+const QUIZ_LEVEL = "{{ level }}";
+
+const URLS = {
+    practice: "/practice/" + "{{ level }}",
+    landing: "{{ url_for('public.landing') }}",
+    register: "{{ url_for('auth.register') }}",
+    login: "{{ url_for('auth.login') }}"
+};
+</script>
+
+<script>
+(function () {
+
+    const data = QUIZ_DATA;
+    let index = 0;
+    let correct = 0;
+
+    // DOM
+    const qText    = document.getElementById("questionText");
+    const input    = document.getElementById("answerInput");
+    const feedback = document.getElementById("feedback");
+    const quizCard = document.getElementById("quizCard");
+    const summary  = document.getElementById("quizSummary");
+    const progress = document.getElementById("progressFill");
+
+    const idxNow   = document.getElementById("currentIndex");
+    const idxTotal = document.getElementById("totalIndex");
+
+    idxTotal.textContent = data.length;
+
+    function clean(str) {
+        return str
+            .toLowerCase()
+            .replace(/[!?¡¿.,]/g, "")
+            .trim();
+    }
+
+    function updateProgress() {
+        const pct = ((index + 1) / data.length) * 100;
+        progress.style.width = pct + "%";
+        idxNow.textContent = index + 1;
+    }
+
+    /* ✅ DEN FUNKTION SOM SAKNADES */
+    function renderQuestion() {
+        if (index >= data.length) {
+            finishQuiz();
+            return;
+        }
+
+        const item = data[index];
+
+        qText.textContent = item.question;
+        feedback.textContent = "";
+        feedback.className = "quiz-feedback";
+
+        input.value = "";
+        input.focus();
+
+        updateProgress();
+    }
+
+    function finishQuiz() {
+        progress.style.width = "100%";
+
+        const hero = document.getElementById("quizHero");
+        const header = document.getElementById("quizHeader");
+
+        if (hero) hero.style.display = "none";
+        if (header) header.style.display = "none";
+
+        quizCard.style.display = "none";
+
+        summary.hidden = false;
+        summary.style.display = "block";
+        summary.style.visibility = "visible";
+        summary.style.opacity = "1";
+
+        summary.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        const percent = Math.round((correct / data.length) * 100);
+
+        summary.innerHTML = `
+            <h2 class="result-title">
+                ${correct === data.length
+                    ? "Perfekt resultat!"
+                    : percent >= 70
+                    ? "Riktigt bra jobbat!"
+                    : percent >= 40
+                    ? "Bra kämpat!"
+                    : "Fortsätt öva!"}
+            </h2>
+
+            <p class="result-score">
+                Du fick <strong>${correct}</strong> av
+                <strong>${data.length}</strong> rätt
+            </p>
+
+            <div class="result-donut-wrapper">
+                <div
+                    class="result-donut"
+                    data-target="${Math.round(percent)}"
+                    style="--percent: 0;"
+                >
+                    <div class="result-donut-center">
+                        <span class="result-donut-percent">
+                            0%
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="result-actions">
+                <a href="${URLS.practice}" class="result-btn result-btn-secondary">
+                    Gör om förhöret
+                </a>
+
+                <a href="${URLS.landing}" class="result-btn result-btn-secondary">
+                    Till startsidan
+                </a>
+            </div>
+
+            <!-- Soft CTA -->
+            <p class="result-soft-cta">
+                Vill du spara dina resultat och följa din utveckling över tid
+                är du välkommen att skapa ett konto på Lexiqo.
+            </p>
+        `;
+
+        // Animera donut från 0 → resultat
+        const donut = summary.querySelector(".result-donut");
+        const percentLabel = summary.querySelector(".result-donut-percent");
+
+        if (donut && percentLabel) {
+            const target = parseInt(donut.dataset.target, 10);
+            let current = 0;
+
+            const duration = 1200; // ms
+            const startTime = performance.now();
+
+            function animate(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // ease-out
+                const eased = 1 - Math.pow(1 - progress, 3);
+
+                current = Math.round(eased * target);
+
+                donut.style.setProperty("--percent", current);
+                percentLabel.textContent = current + "%";
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+    }
+
+    document.getElementById("quizForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const item = data[index];
+        const userAnswer = clean(input.value);
+
+        const isCorrect = item.answers.some(
+            a => clean(a) === userAnswer
+        );
+
+        if (isCorrect) {
+            correct++;
+            feedback.textContent = "Rätt!";
+            feedback.className = "quiz-feedback quiz-feedback-correct";
+        } else {
+            feedback.textContent = "Fel!";
+            feedback.className = "quiz-feedback quiz-feedback-wrong";
+        }
+
+        setTimeout(() => {
+            index++;
+
+            if (index >= data.length) {
+                finishQuiz();
+                return;   // 🔴 ABSOLUT KRITISK
+            }
+
+            renderQuestion();
+        }, 600);
+    });
+
+
+    renderQuestion();
+
+})();
+</script>
+{% endblock %}

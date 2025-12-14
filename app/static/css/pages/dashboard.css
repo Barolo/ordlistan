@@ -1,0 +1,201 @@
+/* =====================================================
+   DASHBOARD – Lexiqo
+   Page-specific styles only
+   ===================================================== */
+
+/* -----------------------------------------------------
+   PAGE WRAPPER
+   ----------------------------------------------------- */
+
+.dashboard-page {
+    padding: var(--space-6) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+/* -----------------------------------------------------
+   HERO
+   ----------------------------------------------------- */
+
+.dashboard-hero {
+    background: linear-gradient(
+        135deg,
+        var(--color-primary-700),
+        var(--color-primary-600)
+    );
+    color: var(--color-text-inverse);
+    padding: var(--space-6);
+    border-radius: var(--radius-xl);
+}
+
+.dashboard-hero h2 {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.dashboard-hero p {
+    margin-top: var(--space-1);
+    opacity: 0.9;
+}
+
+
+/* -----------------------------------------------------
+   BADGES
+   ----------------------------------------------------- */
+
+.badge-strip {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.badge-placeholder {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--color-text-secondary);
+}
+
+
+/* -----------------------------------------------------
+   DASHBOARD CARDS (content only, not layout)
+   ----------------------------------------------------- */
+
+.dash-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.card-header-purple {
+    background: var(--color-primary-600);
+    color: var(--color-text-inverse);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+
+/* -----------------------------------------------------
+   QUIZ
+   ----------------------------------------------------- */
+
+.quiz-chill-img {
+    max-width: 100%;
+    opacity: 0.95;
+}
+
+
+/* -----------------------------------------------------
+   STATS BUTTON
+   ----------------------------------------------------- */
+
+.stats-btn {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+
+/* -----------------------------------------------------
+   WORDLIST CARDS
+   ----------------------------------------------------- */
+
+.dash-wordlist-card {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.dash-wordlist-add {
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+
+/* -----------------------------------------------------
+   CARD NAVIGATION
+   ----------------------------------------------------- */
+
+.card-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-5);
+}
+
+.card-nav-item {
+    display: block;
+    text-decoration: none;
+    color: var(--color-text-primary);
+}
+
+.card-nav-icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-2);
+}
+
+.card-nav-item h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+}
+
+.card-nav-item p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+
+/* -----------------------------------------------------
+   SPECIAL CARDS
+   ----------------------------------------------------- */
+
+.card-today-word {
+    background: linear-gradient(
+        135deg,
+        var(--color-primary-600),
+        var(--color-primary-700)
+    );
+    color: var(--color-text-inverse);
+}
+
+.card-today-word p {
+    color: var(--color-text-inverse);
+    opacity: 0.9;
+}
+
+
+/* -----------------------------------------------------
+   METER
+   ----------------------------------------------------- */
+
+.card-meter {
+    text-align: center;
+}
+
+.card-meter-svg {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-2);
+}
+
+.card-meter-svg circle:nth-child(2) {
+    transition: stroke-dashoffset var(--transition-base);
+}

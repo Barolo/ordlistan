@@ -1,241 +1,178 @@
 {% extends "base.html" %}
 
+{% block title %}Förhör{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/quiz.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="main-content" style="max-width: 700px; margin: 0 auto;">
+<div class="quiz-page">
 
-    <!-- Ljud -->
-    <audio id="win-sound" preload="auto">
-        <source src="{{ url_for('static', filename='sounds/jubel_trim.wav') }}" type="audio/wav">
-    </audio>
+    <!-- QUIZ HERO -->
+    <div class="quiz-hero">
+        <div class="quiz-hero-overlay"></div>
+        <h1 class="quiz-hero-title">Förhör</h1>
+        <p class="quiz-hero-sub">{{ quiz_data|length }} ord</p>
+    </div>
 
-    <div class="card dash-card shadow-sm quiz-card">
+    <!-- HEADER + PROGRESS -->
+    <div class="quiz-header">
+        <p class="quiz-level-label">Personligt förhör</p>
 
-        <div class="card-header card-header-purple text-center py-3">
-            <h3 class="mb-0">Förhör</h3>
-        </div>
-
-        <div class="card-body text-center">
-
-            <p id="intro" class="text-muted mb-4">
-                Du har valt {{ quiz_data|length }} ord att förhöras på.
-            </p>
-
-            <!-- QUIZ START -->
-            <div id="quiz-area">
-
-                <h4 id="question-word" class="quiz-question mb-4">Laddar...</h4>
-
-                <input type="text"
-                       id="answer"
-                       class="quiz-input mb-3"
-                       placeholder="Skriv översättningen här"
-                       autocomplete="off">
-
-                <button id="submit-answer" class="primary-btn w-100 mb-3 py-2">
-                    Svara
-                </button>
-
-                <div id="feedback" class="quiz-feedback"></div>
-
-                <div class="quiz-progress mt-4">
-                    <div class="quiz-progress-bar-bg">
-                        <div id="progress-bar" class="quiz-progress-bar"></div>
-                    </div>
-
-                    <div class="quiz-stats">
-                        <span><span id="current">0</span> / <span id="total"></span></span>
-                        <span id="score-count" class="quiz-score">Poäng: 0</span>
-                    </div>
-                </div>
-
+        <div class="quiz-progress-wrapper">
+            <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
             </div>
 
-            <!-- RESULT -->
-            <div id="result-section" class="quiz-result" style="display:none;">
-                <h3 class="mb-2">Förhör klart!</h3>
-                <p id="score" class="lead"></p>
+            <div class="quiz-progress-text">
+                <span id="quiz-question-index">1</span> /
+                <span id="quiz-question-total">{{ quiz_data|length }}</span>
             </div>
-
         </div>
     </div>
 
+    <!-- QUIZ CARD -->
+    <div class="quiz-card-modern" id="quiz-card">
+
+        <div class="quiz-question-label">Översätt ordet</div>
+        <div class="quiz-question-text" id="quiz-question-text"></div>
+
+        <form id="quiz-form" autocomplete="off">
+            <input
+                type="text"
+                id="quiz-answer-input"
+                class="quiz-input"
+                placeholder="Skriv ditt svar här..."
+            >
+            <button type="submit" class="quiz-submit-btn">
+                Nästa
+            </button>
+        </form>
+
+        <div class="quiz-feedback" id="quiz-feedback"></div>
+
+    </div>
+
+    <!-- RESULT -->
+    <div id="quiz-summary" class="quiz-summary" style="display:none;"></div>
+
 </div>
+{% endblock %}
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+{% block scripts %}
 <script>
-/* ================================================
-   SANITISERING – tar bort ! ? ¿ ¡ . , :
-================================================ */
-const sanitize = str =>
-    str.toLowerCase()
-       .replace(/[!¡?¿.,:]/g, "")  
-       .trim();
-
-/* ================================================
-   DATA FRÅN SERVER
-================================================ */
-const raw = {{ quiz_data|tojson|safe }};
-
-if (!raw || raw.length === 0) {
-    document.getElementById("question-word").textContent =
-        "Inga ord hämtades. Kontrollera inställningarna.";
-}
-
-/* Konvertera till frontend-format */
-let quizData = raw.map(item => ({
-    id: item.id,
-    question: item.question,
-    answers: item.answers.map(a => sanitize(a))  // lista med rätta svar
-}));
-
-document.getElementById("total").textContent = quizData.length;
-
-/* ================================================
-   STATE
-================================================ */
-let currentIndex = 0;
-let correctCount = 0;
-
-/* ================================================
-   VISA NÄSTA FRÅGA
-================================================ */
-function loadQuestion() {
-
-    if (currentIndex >= quizData.length) {
-        return finishQuiz();
-    }
-
-    const q = quizData[currentIndex];
-
-    document.getElementById("question-word").textContent = q.question;
-    document.getElementById("answer").value = "";
-    document.getElementById("feedback").textContent = "";
-    document.getElementById("current").textContent = currentIndex + 1;
-
-    const pct = (currentIndex / quizData.length) * 100;
-    document.getElementById("progress-bar").style.width = pct + "%";
-
-    document.getElementById("answer").focus();
-}
-
-/* ================================================
-   HANTERA SVAR
-================================================ */
-function submitAnswer() {
-
-    const userInput = sanitize(document.getElementById("answer").value);
-    const item = quizData[currentIndex];
-    const feedback = document.getElementById("feedback");
-
-    feedback.classList.remove("correct", "wrong");
-
-    if (item.answers.includes(userInput)) {
-
-        feedback.textContent = "Rätt!";
-        feedback.classList.add("correct");
-
-        correctCount++;
-        document.getElementById("score-count").textContent = "Poäng: " + correctCount;
-
-    } else {
-
-        const pretty = item.answers.join(", ");
-        feedback.textContent = `Fel – möjliga svar: ${pretty}`;
-        feedback.classList.add("wrong");
-    }
-
-    currentIndex++;
-    setTimeout(loadQuestion, 550);
-}
-
-/* === Skicka resultat till backend === */
-function sendResults() {
-
-    const data = new FormData();
-    data.append("correct", correctCount);
-    data.append("total", quizData.length);
-
-    // skapa answers-array (tillfällig variant)
-    const answersPayload = quizData.map((q, i) => ({
-        id: q.id,
-        correct: i < correctCount
-    }));
-
-    data.append("answers", JSON.stringify(answersPayload));
-
-    fetch("/quiz/finish", {
-        method: "POST",
-        body: data
-    })
-    .then(r => r.json())
-    .then(res => {
-        console.log("STATISTIK SPARAD", res);
-    })
-    .catch(err => console.error("Fel vid sparning:", err));
-}
-
-/* ================================================
-   NÄR FÖRHÖRET ÄR KLART
-================================================ */
-function finishQuiz() {
-
-    document.getElementById("quiz-area").style.display = "none";
-
-    const rs = document.getElementById("result-section");
-    rs.style.display = "block";
-
-    document.getElementById("score").textContent =
-        `Du hade ${correctCount} rätt av ${quizData.length}.`;
-    sendResults();
-
-    /* --- Konfetti + ljud vid full pott --- */
-    if (correctCount === quizData.length && quizData.length > 0) {
-        const win = document.getElementById("win-sound");
-        win.play().catch(() => {});
-
-        const end = Date.now() + 2000;
-        (function frame() {
-            confetti({ particleCount: 6, angle: 60, spread: 300 });
-            confetti({ particleCount: 6, angle: 120, spread: 300 });
-            if (Date.now() < end) requestAnimationFrame(frame);
-        })();
-    }
-
-    /* --- KNAPPAR --- */
-    const homeBtn = document.createElement("a");
-    homeBtn.href = "/";
-    homeBtn.className = "primary-btn w-100 mt-3";
-    homeBtn.textContent = "Hem";
-    rs.appendChild(homeBtn);
-
-    const newBtn = document.createElement("a");
-    newBtn.href = "/quiz";
-    newBtn.className = "primary-btn w-100 mt-3";
-    newBtn.textContent = "Starta nytt förhör";
-    rs.appendChild(newBtn);
-
-    const redoBtn = document.createElement("button");
-    redoBtn.className = "primary-btn w-100 mt-3";
-    redoBtn.textContent = "Gör om förhöret";
-    redoBtn.addEventListener("click", () => location.reload());
-    rs.appendChild(redoBtn);
-}
-
-/* ================================================
-   EVENTS
-================================================ */
-document.getElementById("submit-answer").addEventListener("click", submitAnswer);
-
-document.getElementById("answer").addEventListener("keydown", e => {
-    if (e.key === "Enter") {
-        e.preventDefault();
-        submitAnswer();
-    }
-});
-
-/* Starta */
-loadQuestion();
+const QUIZ_DATA = {{ quiz_data | tojson | safe }};
 </script>
 
+<script>
+(function () {
+
+    const data = QUIZ_DATA || [];
+    if (!data.length) return;
+
+    let index = 0;
+    let correct = 0;
+    const total = data.length;
+    const answersLog = [];
+
+    const qText   = document.getElementById("quiz-question-text");
+    const qIndex  = document.getElementById("quiz-question-index");
+    const fill    = document.getElementById("quiz-progress-fill");
+    const input   = document.getElementById("quiz-answer-input");
+    const form    = document.getElementById("quiz-form");
+    const feedback= document.getElementById("quiz-feedback");
+    const card    = document.getElementById("quiz-card");
+    const summary = document.getElementById("quiz-summary");
+
+    function clean(s) {
+        return (s || "").toLowerCase().replace(/[!?.,]/g, "").trim();
+    }
+
+    function updateProgress() {
+        qIndex.textContent = index + 1;
+        fill.style.width = ((index + 1) / total) * 100 + "%";
+    }
+
+    function render() {
+        const item = data[index];
+        qText.textContent = item.question;
+
+        input.value = "";
+        input.focus();
+
+        feedback.textContent = "";
+        feedback.className = "quiz-feedback";
+        card.classList.remove("quiz-card-correct", "quiz-card-wrong");
+
+        updateProgress();
+    }
+
+    function finish() {
+
+        const body = new URLSearchParams();
+        body.append("correct", correct);
+        body.append("total", total);
+        body.append("answers", JSON.stringify(answersLog));
+
+        fetch("{{ url_for('quiz.quiz_finish') }}", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body
+        })
+        .then(r => r.json())
+        .then(res => {
+
+            card.style.display = "none";
+            summary.style.display = "block";
+
+            summary.innerHTML = `
+                <h2 class="result-title">Bra jobbat!</h2>
+                <p class="result-score">
+                    Du fick <strong>${res.correct}</strong> av
+                    <strong>${res.total}</strong> rätt
+                </p>
+
+                <a href="{{ url_for('dashboard.home') }}" class="result-btn-home">
+                    Till dashboard
+                </a>
+            `;
+        });
+    }
+
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+
+        const item = data[index];
+        const raw = input.value;
+        const ok = item.answers.some(a => clean(a) === clean(raw));
+
+        answersLog.push({
+            id: item.id,
+            correct: ok,
+            user_answer: raw
+        });
+
+        if (ok) {
+            correct++;
+            feedback.textContent = "Rätt!";
+            feedback.classList.add("quiz-feedback-correct");
+            card.classList.add("quiz-card-correct");
+        } else {
+            feedback.textContent = "Fel";
+            feedback.classList.add("quiz-feedback-wrong");
+            card.classList.add("quiz-card-wrong");
+        }
+
+        setTimeout(() => {
+            index++;
+            if (index >= total) finish();
+            else render();
+        }, 500);
+    });
+
+    render();
+
+})();
+</script>
 {% endblock %}

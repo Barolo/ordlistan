@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Redigera ord – Lexiqo{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/lists.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-narrow">
+
+    <h1 class="page-title text-center mb-3">Redigera ord</h1>
+
+    <div class="card edit-word-card">
+
+        <div class="card-header-purple">
+            <h3 class="mb-0">Ändra ordet</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <label for="original">Original</label>
+                <input
+                    type="text"
+                    id="original"
+                    name="original"
+                    value="{{ word.original }}"
+                    required
+                >
+
+                <label for="translation">Översättning</label>
+                <input
+                    type="text"
+                    id="translation"
+                    name="translation"
+                    value="{{ word.translation }}"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="btn-primary large-btn w-100 mt-3"
+                >
+                    Spara ändringar
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <a
+        href="{{ url_for('lists.view_list', list_id=word.list_id) }}"
+        class="btn-outline w-100 mt-3"
+    >
+        ← Tillbaka till ordlistan
+    </a>
+
+</div>
+
+{% endblock %}

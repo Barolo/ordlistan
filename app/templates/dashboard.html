@@ -1,180 +1,103 @@
 {% extends "base.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/dashboard.css') }}">
+{% endblock %}
+
 {% block content %}
 
-<div class="container py-4">
+<div class="dashboard-page">
 
-    <h2 class="mb-1">Välkommen, {{ current_user.username }}!</h2>
-    <p class="text-muted mb-4">Hantera dina ordlistor eller starta ett nytt förhör.</p>
-
-    <div class="row g-4">
-
-        <!-- Vänster: Ordlistor -->
-        <div class="col-lg-6">
-            <div class="card dash-card shadow-sm h-100">
-
-                <div class="card-header card-header-purple">
-                    <h5 class="mb-0">Dina ordlistor</h5>
-                </div>
-
-                <div class="card-body">
-
-                    <div class="wordlist-dashboard-wrapper">
-
-                        {% if wordlists %}
-                            {% for wl in wordlists %}
-                            <a href="{{ url_for('main.view_list', list_id=wl.id) }}"
-                                class="dash-wordlist-card dash-wordlist-link">
-
-                                <span class="selectable-text">
-                                    {{ wl.name }}&nbsp;<span class="text-muted">({{ wl.words|length }} ord)</span>
-                                </span>
-
-                            </a>
-                            {% endfor %}
-                        {%endif %}
-
-                        <a href="{{ url_for('main.create_list') }}" class="dash-wordlist-card dash-wordlist-add">
-                            ➕ Skapa ny lista
-                        </a>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Högerkolumn -->
-        <div class="col-lg-6">
-
-            <!-- Förhör -->
-            <div class="card dash-card shadow-sm mb-4 quiz-card">
-                <div class="card-header card-header-purple">
-                    <h5 class="mb-0">Förhör</h5>
-                </div>
-
-                <div class="card-body quiz-body">
-
-                    <div class="quiz-left">
-                        <p class="text-muted mb-3">Välj ordlistor och antal frågor.</p>
-
-                        <a href="{{ url_for('main.quiz_settings') }}"
-                            class="quiz-start-btn">
-                            Starta förhör
-                        </a>
-                    </div>
-
-                    <div class="quiz-right">
-                        <img src="{{ url_for('static', filename='chill.png') }}"
-                            alt="Chill gubbe"
-                            class="quiz-chill-img">
-                    </div>
-
-                </div>
-            </div>
-
-
-            <!-- Resultat -->
-            <div class="card dash-card shadow-sm mb-4">
-                <div class="card-header card-header-purple">
-                    <h5 class="mb-0">Tidigare resultat</h5>
-                </div>
-
-                <div class="card-body">
-
-                    {% if results %}
-                    <div class="table-responsive">
-                        <table class="table table-sm align-middle" id="resultsTable">
-                            <thead>
-                                <tr>
-                                    <th>Datum</th>
-                                    <th>Rätta</th>
-                                    <th>Totalt</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for r in results %}
-                                    <tr class="{% if loop.index > 5 %}extra-result d-none{% endif %}">
-                                        <td>{{ r.date.strftime("%Y-%m-%d %H:%M") }}</td>
-                                        <td>{{ r.correct_count }}</td>
-                                        <td>{{ r.total_questions }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {% if results|length > 5 %}
-                        <button id="showMoreBtn" class="show-more-btn mt-2">
-                            Visa fler resultat
-                        </button>
-                    {% endif %}
-
-                    {% else %}
-                        <p class="text-muted">Inga resultat ännu.</p>
-                    {% endif %}
-
-                </div>
-            </div>
-
-            <!-- 🔥 NY STATISTIK-SEKTION -->
-            <div class="card dash-card shadow-sm">
-                <div class="card-header" style="background-color: var(--purple-main); color: white;">
-                    <h5 class="mb-0">Statistik</h5>
-                </div>
-
-                <div class="card-body text-center">
-
-                    <div class="row mb-3">
-                        <div class="col">
-                            <h4>{{ wordlists|length }}</h4>
-                            <p class="mb-3">Ordlistor</p>
-                        </div>
-
-                        <div class="col">
-                            <h4>
-                                {{
-                                    wordlists
-                                    | map(attribute='words')
-                                    | map('length')
-                                    | sum
-                                }}
-                            </h4>
-                            <p class="mb-3">Ord totalt</p>
-                        </div>
-
-                        <div class="col">
-                            <h4>{{ results|length }}</h4>
-                            <p class="mb-3">Förhör</p>
-                        </div>
-                    </div>
-
-                    <a href="{{ url_for('main.profile') }}" class="stats-btn">
-                        Visa full statistik →
-                    </a>
-                </div>
-            </div>
-
-        </div>
+    <!-- =========================
+         HERO
+         ========================= -->
+    <div class="dashboard-hero">
+        <h2>Välkommen, {{ current_user.username }} 👋</h2>
+        <p>
+            Du har {{ wordlists|length }} ordlistor och totalt
+            {{
+                wordlists
+                | map(attribute='words')
+                | map('length')
+                | sum
+            }}
+            ord.
+        </p>
     </div>
 
+    <!-- =========================
+         CARD NAVIGATION
+         ========================= -->
+    <div class="card-nav-grid">
+
+        <a href="{{ url_for('lists.view_all') }}" class="card-nav-item">
+            <div class="card-nav-icon">📚</div>
+            <h3>Mina ordlistor</h3>
+            <p>Visa, skapa och hantera dina ordlistor.</p>
+        </a>
+
+        <a href="{{ url_for('quiz.quiz_settings') }}" class="card-nav-item">
+            <div class="card-nav-icon">🎯</div>
+            <h3>Starta förhör</h3>
+            <p>Välj listor och kör ett snabbt quiz.</p>
+        </a>
+
+        <a href="{{ url_for('stats.stats_page') }}" class="card-nav-item">
+            <div class="card-nav-icon">📊</div>
+            <h3>Statistik</h3>
+            <p>Följ din utveckling och historik.</p>
+        </a>
+
+        <a href="{{ url_for('lists.create_list') }}" class="card-nav-item card-today-word">
+            <div class="card-nav-icon">💡</div>
+            <h3>Dagens ord</h3>
+            {% if todays_word %}
+                <p><strong>{{ todays_word.original }}</strong>, {{ todays_word.translation }}</p>
+            {% else %}
+                <p>Inget ord ännu, lägg till fler ordlistor.</p>
+            {% endif %}
+        </a>
+
+        <a href="{{ url_for('settings.settings') }}" class="card-nav-item">
+            <div class="card-nav-icon">👤</div>
+            <h3>Profil och inställningar</h3>
+            <p>Hantera konto, tema och profil.</p>
+        </a>
+
+        <a href="{{ url_for('users.profile') }}" class="card-nav-item card-meter">
+            <div class="card-meter-svg">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                    <circle cx="40" cy="40" r="32" stroke="#ddd" stroke-width="8" fill="none"/>
+                    <circle
+                        cx="40"
+                        cy="40"
+                        r="32"
+                        stroke="var(--color-primary)"
+                        stroke-width="8"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-dasharray="201"
+                        stroke-dashoffset="{{ 201 - (progress_percent or 0) * 2 }}"
+                    />
+                </svg>
+            </div>
+            <h3>Utveckling</h3>
+            <p>{{ progress_percent or 0 }} procent senaste förhöret</p>
+        </a>
+
+    </div>
+
+    <!-- =========================
+         BADGES
+         ========================= -->
+    <div class="badge-strip">
+        <div class="badge-placeholder">🏅</div>
+        <div class="badge-placeholder">🔒</div>
+        <div class="badge-placeholder">🔒</div>
+        <div class="badge-placeholder">🔒</div>
+    </div>
+
+    
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("showMoreBtn");
-    if (!btn) return;
-
-    let expanded = false;
-    const rows = document.querySelectorAll(".extra-result");
-
-    btn.addEventListener("click", () => {
-        expanded = !expanded;
-
-        rows.forEach(r => r.classList.toggle("d-none"));
-        btn.textContent = expanded ? "Visa färre resultat" : "Visa fler resultat";
-    });
-});
-</script>
 
 {% endblock %}

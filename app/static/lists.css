@@ -1,0 +1,105 @@
+/* ===================================================================
+   LEXIQO – LISTS PAGE (overflow-safe)
+   ===================================================================*/
+
+/* -------------------------
+   PAGE WRAPPER
+------------------------- */
+.lists-container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* -------------------------
+   LIST PAGE TITLE
+------------------------- */
+.lists-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+/* -------------------------
+   CREATE NEW LIST BUTTON
+------------------------- */
+.list-create-btn {
+    background: var(--button-bg);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.2s ease;
+}
+
+.list-create-btn:hover {
+    background: var(--button-bg-hover);
+    transform: translateY(-2px);
+}
+
+/* -------------------------
+   LIST GRID (SAFE)
+------------------------- */
+.list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden; /* viktig! */
+}
+
+/* -------------------------
+   INDIVIDUAL LIST CARD
+------------------------- */
+.list-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow);
+
+    padding: 20px;
+    text-decoration: none;
+    color: var(--text);
+
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden; /* stoppar långa ord */
+    transition: background 0.2s ease;
+}
+
+.list-card:hover {
+    background: var(--accent-bg);
+}
+
+/* -------------------------
+   LIST CARD TITLE
+------------------------- */
+.list-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+
+    white-space: nowrap;         /* inga radbrytningar */
+    overflow: hidden;            /* clip text */
+    text-overflow: ellipsis;     /* "..." vid overflow */
+}
+
+/* -------------------------
+   LIST CARD DETAILS
+------------------------- */
+.list-card-info {
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+/* -------------------------
+   EMPTY STATE
+------------------------- */
+.list-empty {
+    text-align: center;
+    padding: 40px 0;
+    opacity: 0.7;
+    font-size: 1.1rem;
+}

@@ -1,31 +1,64 @@
 {% extends "base.html" %}
+
+{% block title %}Användare{% endblock %}
+
 {% block content %}
 
-<h2 class="mb-4">Användaröversikt</h2>
+<div class="page-container" style="max-width: 1000px;">
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Användarnamn</th>
-            <th>E-post</th>
-            <th>Antal ordlistor</th>
-            
-            
-        </tr>
-    </thead>
-    <tbody>
-        {% for u in users %}
-        <tr>
-            <td>{{ u.id }}</td>
-            <td>{{ u.username }}</td>
-            <td>{{ u.email }}</td>
-            <td>{{ u.wordlist_count }}</td>
-          
-          
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+    <div class="page-header mb-4">
+        <h1>Användaröversikt</h1>
+        <p class="text-muted">
+            Totalt {{ users|length }} registrerade användare
+        </p>
+    </div>
+
+
+    <!-- =====================================================
+         USERS TABLE
+         ===================================================== -->
+    <div class="card">
+
+        <div class="card-header card-header-purple">
+            <h5 class="mb-0">Användare</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Användarnamn</th>
+                            <th>E-post</th>
+                            <th>Ordlistor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                        <tr>
+                            <td>{{ u.id }}</td>
+                            <td>{{ u.username }}</td>
+                            <td>{{ u.email }}</td>
+                            <td>{{ u.wordlist_count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if users|length == 0 %}
+                <p class="stats-empty">Inga användare hittades.</p>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

@@ -3,68 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Dashboard{% endblock %}</title>
+    <title>{% block title %}Lexiqo{% endblock %}</title>
+
+    <!-- Theme bootstrap (no flash) -->
+    <script>
+        (function () {
+            try {
+                const saved = localStorage.getItem("lexiqo-theme");
+                const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+                const theme = saved || (prefersDark ? "dark" : "light");
+                document.documentElement.setAttribute("data-theme", theme);
+            } catch (e) {
+                document.documentElement.setAttribute("data-theme", "light");
+            }
+        })();
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Inter (primary font) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Courgette (decorative), behåll bara om du faktiskt använder den -->
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- FontAwesome (för logout-ikonen) -->
+    <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- ============================
+         BASE CSS (Design system)
+         tokens first, always
+       ============================ -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/tokens.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/global.css') }}">
+
+    <!-- ============================
+         COMPONENTS
+       ============================ -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/topbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/buttons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/card.css') }}">
+
+    <!-- ============================
+         PAGE-SPECIFIC CSS
+       ============================ -->
+    {% block extra_css %}{% endblock %}
 </head>
 
-<body>
+<body class="app-body">
 
-    <!-- TOPBAR -->
-    <header class="app-topbar">
+    {% set show_topbar = (
+        current_user.is_authenticated and 
+        request.endpoint not in [
+            'public.landing',
+            'public.practice',
+            'public.practice_level'
+        ]
+    ) %}
 
-        <div class="top-left">
-            <a href="{{ url_for('main.home') }}" class="topbar-logo-link">
-                <img src="{{ url_for('static', filename='logotype_ordlistan.png') }}" class="topbar-logo" alt="Ordlistan Logo">
+    {% if show_topbar %}
+    <!-- ⭐ Superdiskret Topbar (solid light/dark, ingen border, ingen blur) -->
+    <nav class="topbar">
+        <div class="topbar-left">
+            <a href="{{ url_for('dashboard.home') }}" class="topbar-logo-link">
+                <img src="{{ url_for('static', filename='img/lexiqo_logo.png') }}" 
+                     alt="Lexiqo Logo"
+                     class="topbar-logo-img">
             </a>
         </div>
 
-        <div class="top-center desktop-only">
-            <span class="topbar-status">
-                Inloggad som <strong>{{ current_user.username }}</strong>
-            </span>
-        </div>
+        <div class="topbar-right">
+            <!-- Theme toggle -->
+            <button id="themeToggle" class="topbar-btn" title="Byt tema">
+                🌓
+            </button>
 
-        <div class="top-right">
-
-            <!-- Desktop logout -->
-            <a href="{{ url_for('main.logout') }}" class="topbar-logout desktop-only">
-                Logga ut
+            <!-- Profil -->
+            <a href="{{ url_for('users.profile') }}" class="topbar-btn" title="Profil">
+                👤
             </a>
 
-            <!-- Mobile logout icon -->
-            <a href="{{ url_for('main.logout') }}" class="topbar-logout-icon mobile-only">
-                <i class="fa-regular fa-right-from-bracket"></i>
+            <!-- Logga ut -->
+            <a href="{{ url_for('auth.logout') }}" class="topbar-btn logout-link" title="Logga ut">
+                <i class="fa-solid fa-right-from-bracket"></i>
             </a>
-
         </div>
-    </header>
+    </nav>
+    {% endif %}
 
-    <!-- PAGE CONTENT -->
-    <main class="container main-content">
+    <!-- === Page Content === -->
+
+    {% block full_width_content %}{% endblock %}
+
+    <main class="main-content">
         {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            {% for category, message in messages %}
-              <div class="flash {{ category }}">{{ message }}</div>
-            {% endfor %}
-          {% endif %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
         {% endwith %}
 
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- 🌙 Theme Toggle Script -->
+    <script>
+    (function () {
+        const STORAGE_KEY = "lexiqo-theme";
+        const root = document.documentElement;
+        const toggleBtn = document.getElementById("themeToggle");
+
+        if (!toggleBtn) return;
+
+        toggleBtn.addEventListener("click", () => {
+            const current = root.getAttribute("data-theme") || "light";
+            const next = current === "dark" ? "light" : "dark";
+
+            root.setAttribute("data-theme", next);
+            localStorage.setItem(STORAGE_KEY, next);
+        });
+    })();
+    </script>
+
     {% block scripts %}{% endblock %}
-
 </body>
-
 </html>

@@ -1,0 +1,89 @@
+{% extends "base_auth.html" %}
+{% block title %}Skapa konto{% endblock %}
+
+{% block content_inner %}
+<div class="auth-card">
+
+    <!-- LEXIQO LOGOTYPE -->
+    <div class="login-logo">
+        <a href="{{ url_for('public.landing') }}" class="auth-logo-link">
+            <img
+                src="{{ url_for('static', filename='img/lexiqo_logo.png') }}"
+                alt="Lexiqo"
+                class="auth-logo"
+            >
+        </a>
+    </div>
+
+
+    <!-- TITLE -->
+    <h1 class="auth-title">
+        Skapa konto
+    </h1>
+    <p class="auth-subtitle">
+        Börja bygga ditt ordförråd idag
+    </p>
+
+    <!-- FLASH -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- FORM -->
+    <form method="POST" action="{{ url_for('auth.register') }}">
+
+        <div class="auth-input-wrapper">
+            <i class="fa fa-envelope input-icon"></i>
+            <input
+                type="email"
+                name="email"
+                class="form-control auth-input"
+                placeholder="E-post"
+                required
+            >
+        </div>
+
+        <div class="auth-input-wrapper">
+            <i class="fa fa-user input-icon"></i>
+            <input
+                type="text"
+                name="username"
+                class="form-control auth-input"
+                placeholder="Användarnamn"
+                required
+            >
+        </div>
+
+        <div class="auth-input-wrapper">
+            <i class="fa fa-lock input-icon"></i>
+            <input
+                type="password"
+                name="password"
+                class="form-control auth-input"
+                placeholder="Lösenord"
+                required
+            >
+        </div>
+
+        <button
+            type="submit"
+            class="primary-btn w-100 mt-2"
+        >
+            Skapa konto
+        </button>
+
+    </form>
+
+    <!-- LINK -->
+    <div class="auth-actions-row">
+        <a href="{{ url_for('auth.login') }}" class="auth-link auth-link-left">
+            Har du redan ett konto? Logga in
+        </a>
+    </div>
+
+</div>
+{% endblock %}

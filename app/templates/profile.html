@@ -2,70 +2,67 @@
 
 {% block title %}Profil{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/profile.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="main-content" style="max-width: 900px; margin: 0 auto;">
 
-    <!-- PROFILHEADER -->
-    <div class="profile-header text-center mb-5">
-        <h2 class="mb-1 fw-bold">{{ user.username }}</h2>
-        <p class="text-muted">{{ user.email }}</p>
+<div class="profile-container">
+
+    <!-- =====================================================
+         PROFILE HERO
+         ===================================================== -->
+    <div class="profile-hero">
+        <h1>{{ user.username }}</h1>
+        <p>{{ user.email }}</p>
     </div>
 
-    <!-- STATISTIK-KORT -->
-    <div class="row g-4 mb-5">
-        <div class="col-md-4">
-            <div class="card stat-card shadow-sm text-center">
-                <div class="card-body py-3">
-                    <h2 class="stat-number" id="total-lists">{{ total_lists }}</h2>
-                    <p class="stat-label">Ordlistor</p>
-                </div>
-            </div>
+
+    <!-- =====================================================
+         STATS OVERVIEW
+         ===================================================== -->
+    <div class="profile-card">
+        <div class="profile-row">
+            <span class="profile-label">Ordlistor</span>
+            <span class="profile-value">{{ total_lists }}</span>
         </div>
 
-        <div class="col-md-4">
-            <div class="card stat-card shadow-sm text-center">
-                <div class="card-body py-3">
-                    <h2 class="stat-number" id="total-words">{{ total_words }}</h2>
-                    <p class="stat-label">Ord totalt</p>
-                </div>
-            </div>
+        <div class="profile-row">
+            <span class="profile-label">Ord totalt</span>
+            <span class="profile-value">{{ total_words }}</span>
         </div>
 
-        <div class="col-md-4">
-            <div class="card stat-card shadow-sm text-center">
-                <div class="card-body py-3">
-                    <h2 class="stat-number" id="total-quizzes">{{ total_quizzes }}</h2>
-                    <p class="stat-label">Förhör genomförda</p>
-                </div>
-            </div>
+        <div class="profile-row">
+            <span class="profile-label">Genomförda förhör</span>
+            <span class="profile-value">{{ total_quizzes }}</span>
         </div>
     </div>
 
-    <!-- KURVA ÖVER RESULTAT -->
-    <div class="card shadow-sm mb-5">
-        <div class="card-header card-header-purple">
-            <h4 class="mb-0 text-white">Resultat över tid</h4>
-        </div>
 
-        <div class="card-body">
-            {% if quiz_scores and quiz_scores|length > 0 %}
-                <canvas id="quizChart" height="100"></canvas>
-            {% else %}
-                <p class="text-muted">Inga resultat ännu.</p>
-            {% endif %}
-        </div>
+    <!-- =====================================================
+         QUIZ HISTORY
+         ===================================================== -->
+    <div class="profile-card">
+        <h3>Resultat över tid</h3>
+
+        {% if quiz_scores and quiz_scores|length > 0 %}
+            <canvas id="quizChart" height="120"></canvas>
+        {% else %}
+            <p class="stats-empty">Inga resultat ännu.</p>
+        {% endif %}
     </div>
 
-    <!-- SVÅRASTE ORDEN -->
-    <div class="card shadow-sm">
-        <div class="card-header card-header-purple">
-            <h4 class="mb-0 text-white">Svåraste orden</h4>
-        </div>
 
-        <div class="card-body">
-            {% if hardest_words and hardest_words|length > 0 %}
+    <!-- =====================================================
+         HARDEST WORDS
+         ===================================================== -->
+    <div class="profile-card">
+        <h3>Svåraste orden</h3>
+
+        {% if hardest_words and hardest_words|length > 0 %}
             <div class="table-responsive">
-                <table class="table table-hover" id="hardestWordsTable">
+                <table class="stats-table">
                     <thead>
                         <tr>
                             <th>Ord</th>
@@ -80,52 +77,91 @@
                             <td>{{ word.original }}</td>
                             <td>{{ word.correct_count or 0 }}</td>
                             <td>{{ word.wrong_count or 0 }}</td>
-                            <td>{{ word.last_wrong }}</td>
+                            <td>
+                                {% if word.last_wrong %}
+                                    {{ word.last_wrong.strftime("%Y-%m-%d") }}
+                                {% else %}
+                                    –
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            {% else %}
-                <p class="text-muted">Du har ännu inga misslyckade ord.</p>
-            {% endif %}
+        {% else %}
+            <p class="stats-empty">Du har ännu inga misslyckade ord.</p>
+        {% endif %}
+    </div>
+
+
+    <!-- =====================================================
+         ACTIONS
+         ===================================================== -->
+    <div class="profile-card">
+        <h3>Konto</h3>
+
+        <div class="profile-actions">
+            <a href="{{ url_for('settings.settings') }}" class="profile-btn primary">
+                Inställningar
+            </a>
+
+            <a href="{{ url_for('auth.logout') }}" class="profile-btn">
+                Logga ut
+            </a>
         </div>
+    </div>
+
+
+    <!-- =====================================================
+         DANGER ZONE
+         ===================================================== -->
+    <div class="profile-danger">
+        <h3>Riskzon</h3>
+        <p>Denna åtgärd kan inte ångras.</p>
+
+        <button class="profile-btn" type="button" disabled>
+            Radera konto (kommer snart)
+        </button>
     </div>
 
 </div>
 
-<!-- CHART.JS -->
+
+<!-- =====================================================
+     CHART.JS
+     ===================================================== -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
 {% if quiz_scores and quiz_scores|length > 0 %}
-const ctx = document.getElementById('quizChart');
+<script>
+const ctx = document.getElementById("quizChart");
+
 new Chart(ctx, {
-    type: 'line',
+    type: "line",
     data: {
-        labels: {{ quiz_labels|tojson }},
+        labels: {{ quiz_labels | tojson }},
         datasets: [{
-            label: 'Antal rätt',
-            data: {{ quiz_scores|tojson }},
+            data: {{ quiz_scores | tojson }},
             borderWidth: 3,
-            tension: 0.3,
-            fill: false,
-            borderColor: '#6c63ff',
-            pointBackgroundColor: '#6c63ff',
+            tension: 0.35,
+            borderColor: getComputedStyle(document.documentElement)
+                .getPropertyValue("--color-primary-600"),
             pointRadius: 4,
             pointHoverRadius: 6,
+            fill: false
         }]
     },
     options: {
-        scales: {
-            y: { beginAtZero: true }
-        },
         plugins: {
             legend: { display: false }
+        },
+        scales: {
+            y: { beginAtZero: true }
         }
     }
 });
-{% endif %}
 </script>
+{% endif %}
 
 {% endblock %}

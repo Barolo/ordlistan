@@ -4,10 +4,11 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from .extensions import db
+from app import db
 
 
 class User(UserMixin, db.Model):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -40,7 +41,7 @@ class WordList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
 
     words = db.relationship(
         'Word',
@@ -60,6 +61,8 @@ class Word(db.Model):
     wrong_count = db.Column(db.Integer, default=0)
     last_wrong = db.Column(db.DateTime)
 
+    is_global = db.Column(db.Boolean, default=False)
+
     list_id = db.Column(db.Integer, db.ForeignKey('word_list.id'), nullable=False)
 
 
@@ -67,7 +70,35 @@ class QuizResult(db.Model):
     __tablename__ = 'quiz_result'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     correct_count = db.Column(db.Integer, nullable=False)
     total_questions = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class PublicWord(db.Model):
+    __tablename__ = 'public_word'
+
+    id = db.Column(db.Integer, primary_key=True)
+    swedish = db.Column(db.String(255), nullable=False)
+    english = db.Column(db.String(255), nullable=False)
+    level = db.Column(db.String(20), nullable=False)  # easy / medium / hard
+
+
+class QuizAnswerLog(db.Model):
+    __tablename__ = "quiz_answer_log"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    quiz_result_id = db.Column(db.Integer, db.ForeignKey("quiz_result.id"), nullable=False)
+    word_id = db.Column(db.Integer, db.ForeignKey("word.id"), nullable=False)
+
+    user_answer = db.Column(db.String(255), nullable=False)
+    is_correct = db.Column(db.Boolean, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relationer
+    user = db.relationship("User", backref="answer_logs", lazy=True)
+    quiz_result = db.relationship("QuizResult", backref="answer_logs", lazy=True)
+    word = db.relationship("Word", backref="answer_logs", lazy=True)

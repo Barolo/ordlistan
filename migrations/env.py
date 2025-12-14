@@ -8,7 +8,9 @@ from alembic import context
 config = context.config
 
 # Setup logging from alembic.ini
-fileConfig(config.config_file_name)
+import os
+config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "alembic.ini")
+fileConfig(config_path)
 logger = logging.getLogger('alembic.env')
 
 

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Mina ordlistor – Lexiqo{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/lists.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-wide">
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+    <header class="page-header">
+        <h1>Mina ordlistor</h1>
+    </header>
+
+    <!-- FLASH -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- =====================================================
+         LISTS TABLE
+         ===================================================== -->
+    <section class="card dash-card">
+
+        <div class="card-header card-header-purple">
+            <h5>Dina listor</h5>
+        </div>
+
+        <div class="card-body">
+
+            {% if lists %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Lista</th>
+                                <th>Antal ord</th>
+                                <th>Skapad</th>
+                                <th class="text-end">Åtgärder</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for l in lists %}
+                            <tr>
+
+                                <td>
+                                    <a
+                                        href="{{ url_for('lists.view_list', list_id=l.id) }}"
+                                        class="table-link"
+                                    >
+                                        {{ l.name }}
+                                    </a>
+                                </td>
+
+                                <td>{{ l.words|length }}</td>
+
+                                <td>
+                                    {% if l.created_at %}
+                                        {{ l.created_at.strftime("%Y-%m-%d") }}
+                                    {% else %}
+                                        <span class="text-muted">–</span>
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-end">
+
+                                    <a
+                                        href="{{ url_for('lists.edit_list', list_id=l.id) }}"
+                                        class="btn btn-sm btn-white me-1"
+                                    >
+                                        Ändra
+                                    </a>
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('lists.delete_list', list_id=l.id) }}"
+                                        class="inline-form"
+                                        onsubmit="return confirm('Är du säker på att du vill ta bort listan?');"
+                                    >
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-delete"
+                                        >
+                                            Ta bort
+                                        </button>
+                                    </form>
+
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            {% else %}
+                <p class="text-muted">Du har inga ordlistor ännu.</p>
+            {% endif %}
+
+            <!-- CTA -->
+            <div class="text-end mt-4">
+                <a
+                    href="{{ url_for('lists.create_list') }}"
+                    class="primary-btn"
+                >
+                    ➕ Skapa ny ordlista
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,132 @@
+/* HERO */
+.settings-hero {
+    background: var(--hero-bg);
+    color: var(--hero-text);
+    padding: 28px;
+    border-radius: 20px;
+    margin-bottom: 35px;
+    box-shadow: var(--shadow);
+}
+
+.settings-hero h2 {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.settings-hero p {
+    opacity: 0.9;
+}
+
+/* GRID */
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+/* CARD */
+.settings-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.settings-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+.settings-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.settings-card p {
+    opacity: 0.8;
+    margin-bottom: 14px;
+}
+
+/* LINK */
+.settings-link {
+    font-weight: 600;
+    color: var(--accent-text);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.settings-link:hover {
+    opacity: 0.75;
+}
+
+/* DISABLED */
+.settings-disabled {
+    opacity: 0.4;
+    font-style: italic;
+}
+
+/* Theme toggle button */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--hero-text);
+    transition: 0.2s ease;
+}
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.85;
+}
+
+/* CHANGE PASSWORD PAGE */
+.change-pass-wrapper {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.change-pass-form {
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    gap: 14px;
+}
+
+.change-pass-form label {
+    font-weight: 600;
+}
+
+.change-pass-form input {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    background: var(--bg);
+    color: var(--text);
+}
+
+.btn-change-pass {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: var(--button-bg);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-change-pass:hover {
+    background: var(--button-bg-hover);
+}

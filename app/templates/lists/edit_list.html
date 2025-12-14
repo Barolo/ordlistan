@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Redigera {{ wordlist.name }} – Lexiqo{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/lists.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="page-narrow">
+
+    <h2 class="mb-3 text-center">Byt namn på ordlista</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="card add-word-card">
+        <h3>Nytt listnamn</h3>
+
+        <form method="POST">
+            <input
+                type="text"
+                name="list_name"
+                value="{{ wordlist.name }}"
+                required
+                class="text-input-large"
+            >
+
+            <button type="submit" class="btn-primary w-100 mt-3">
+                Spara ändringar
+            </button>
+        </form>
+    </div>
+
+    <a
+        href="{{ url_for('lists.view_list', list_id=wordlist.id) }}"
+        class="btn-small w-100 mt-3"
+    >
+        ↩ Tillbaka
+    </a>
+
+</div>
+
+{% endblock %}

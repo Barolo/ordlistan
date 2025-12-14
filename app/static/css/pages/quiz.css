@@ -1,0 +1,407 @@
+/* ======================================================
+   QUIZ – Lexiqo
+   Modern, calm, focused
+   ====================================================== */
+
+/* ------------------------------------------------------
+   1. PAGE WRAPPER
+------------------------------------------------------ */
+
+.quiz-page {
+    max-width: 760px;
+    margin: 0 auto var(--space-7);
+    padding: 0 var(--space-4);
+    font-family: var(--font-primary);
+}
+
+/* ------------------------------------------------------
+   2. QUIZ HERO
+------------------------------------------------------ */
+
+.quiz-hero {
+    position: relative;
+    height: 160px;
+    background: url("/static/img/hero_bg.png") center / cover no-repeat;
+    border-radius: var(--radius-lg);
+    margin: var(--space-4) 0 var(--space-6);
+    overflow: hidden;
+}
+
+.quiz-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(91, 46, 229, 0.55);
+}
+
+.quiz-hero-title {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding-top: 44px;
+    color: var(--color-text-inverse);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.quiz-hero-sub {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin-top: var(--space-2);
+    color: rgba(255,255,255,0.85);
+    font-size: 1rem;
+}
+
+/* ------------------------------------------------------
+   3. HEADER + PROGRESS
+------------------------------------------------------ */
+
+.quiz-header {
+    margin-bottom: var(--space-3);
+}
+
+.quiz-level-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-1);
+}
+
+.quiz-progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.quiz-progress-bar {
+    flex: 1;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--color-surface);
+    overflow: hidden;
+}
+
+.quiz-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--color-primary-600);
+    transition: width 0.4s ease;
+}
+
+.quiz-progress-text {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-primary-600);
+}
+
+/* ------------------------------------------------------
+   4. QUESTION CARD
+------------------------------------------------------ */
+
+.quiz-card-modern {
+    background: var(--color-surface-elevated);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6) var(--space-5);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border);
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.3s ease;
+}
+
+.quiz-cancel-top {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    color: var(--color-text-muted);
+    text-decoration: none;
+
+    z-index: 5;
+}
+
+.quiz-cancel-top:hover {
+    color: var(--color-text-primary);
+    text-decoration: none;
+}
+
+.quiz-question-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+.quiz-question-text {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    margin: var(--space-3) 0 var(--space-5);
+    color: var(--color-primary-600);
+}
+
+/* ------------------------------------------------------
+   INPUT
+------------------------------------------------------ */
+
+.quiz-input {
+    width: 100%;
+    font-size: var(--font-size-lg);
+    padding: 14px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+}
+
+.quiz-input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.quiz-input:focus {
+    outline: none;
+    border-color: var(--color-primary-600);
+    box-shadow: 0 0 0 3px rgba(91, 46, 229, 0.18);
+}
+
+/* ------------------------------------------------------
+   SUBMIT BUTTON
+------------------------------------------------------ */
+
+.quiz-submit-btn {
+    margin-top: var(--space-4);
+    width: 100%;
+    padding: 14px;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    border: none;
+    background: var(--color-primary-600);
+    color: var(--color-text-inverse);
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.quiz-submit-btn:hover {
+    background: var(--color-primary-700);
+}
+
+/* ------------------------------------------------------
+   5. FEEDBACK
+------------------------------------------------------ */
+
+.quiz-feedback {
+    margin-top: var(--space-3);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+.quiz-feedback-correct {
+    color: var(--color-success);
+}
+
+.quiz-feedback-wrong {
+    color: var(--color-danger);
+}
+
+/* Subtle card flash */
+.quiz-card-correct {
+    animation: flashCorrect 0.35s ease;
+}
+
+.quiz-card-wrong {
+    animation: flashWrong 0.35s ease;
+}
+
+@keyframes flashCorrect {
+    from { background: rgba(44,182,125,0.18); }
+    to   { background: var(--color-surface-elevated); }
+}
+
+@keyframes flashWrong {
+    from { background: rgba(229,72,77,0.18); }
+    to   { background: var(--color-surface-elevated); }
+}
+
+/* ------------------------------------------------------
+   6. SUMMARY
+------------------------------------------------------ */
+
+.quiz-summary {
+    max-width: 520px;
+    margin: 0 auto;
+    display: none;
+    background: var(--color-surface-elevated);
+    padding: 48px 40px;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border);
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.quiz-summary-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-primary-600);
+    margin-bottom: var(--space-2);
+}
+
+.quiz-summary-score {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-5);
+}
+
+/* ------------------------------------------------------
+   7. RESULT METER
+------------------------------------------------------ */
+
+.result-meter {
+    width: 100%;
+    height: 12px;
+    border-radius: 999px;
+    background: var(--color-surface);
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+}
+
+.result-meter-fill {
+    height: 100%;
+    background: var(--color-primary-600);
+    transition: width 0.5s ease;
+}
+
+/* ------------------------------------------------------
+   8. RESULT PAGE
+------------------------------------------------------ */
+
+.result-title {
+    margin-top: 8px;
+    margin-bottom: 3px;
+}
+
+.result-score {
+    font-size: 1rem;
+}
+
+/* DONUT*/
+
+.result-donut-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 32px 0 36px;
+}
+
+.result-donut {
+    --size: 140px;
+    --thickness: 20px;
+
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            rgba(91, 46, 229, 0.85) calc(var(--percent) * 1%),
+            rgba(91, 46, 229, 0.12) 0
+        );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-donut-center {
+    width: calc(var(--size) - var(--thickness) * 2);
+    height: calc(var(--size) - var(--thickness) * 2);
+    background: var(--color-surface-elevated);
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-donut-percent {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+/*RESULT BUTTONS*/
+
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 32px 0 28px;
+}
+
+.result-btn {
+    min-width: 180px;
+    height: 46px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition-base),
+        color var(--transition-base),
+        border-color var(--transition-base);
+}
+
+/* Secondary */
+.result-btn-secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+}
+
+.result-btn-secondary:hover {
+    background: var(--color-surface);
+}
+
+/* ------------------------------------------------------
+   ANIMATIONS
+------------------------------------------------------ */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------ */
+
+@media (max-width: 600px) {
+    .quiz-question-text {
+        font-size: var(--font-size-xl);
+    }
+
+    .quiz-card-modern {
+        padding: var(--space-5) var(--space-4);
+    }
+
+    .quiz-hero-title {
+        font-size: var(--font-size-lg);
+    }
+
+    .result-actions {
+        flex-direction: column;
+    }
+
+    .result-btn {
+        width: 100%;
+    }
+}

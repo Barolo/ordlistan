@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Skapa ordlista{% endblock %}
+
+{% block content %}
+
+<div class="main-content">
+
+    <div class="page-narrow">
+
+        <!-- =============================
+             HEADER
+             ============================= -->
+        <h1 class="text-center mb-4">
+            Skapa ny ordlista
+        </h1>
+
+        <!-- FLASH -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <!-- =============================
+             CARD
+             ============================= -->
+        <div class="card dash-card">
+
+            <div class="card-body">
+
+                <form method="POST" action="{{ url_for('lists.create_list') }}">
+
+                    <label for="list_name" class="form-label">
+                        Namn på ordlistan
+                    </label>
+
+                    <input
+                        type="text"
+                        id="list_name"
+                        name="list_name"
+                        class="form-control form-control-lg"
+                        placeholder="Exempel: Engelska glosor"
+                        required
+                    >
+
+                    <button
+                        type="submit"
+                        class="primary-btn w-100 mt-4"
+                    >
+                        Skapa ordlista
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!-- =============================
+             BACK
+             ============================= -->
+        <a
+            href="{{ url_for('lists.view_all') }}"
+            class="stats-btn w-100 mt-3 text-center"
+        >
+            ← Tillbaka till mina ordlistor
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
