@@ -1,5 +1,9 @@
+import os
+import sys
 import logging
 from logging.config import fileConfig
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from alembic import context
 from app import create_app, db
