@@ -1,8 +1,8 @@
 import logging
 from logging.config import fileConfig
 
-from flask import current_app
 from alembic import context
+from app import create_app, db
 
 # Alembic config object
 config = context.config
@@ -51,30 +51,20 @@ def run_migrations_offline():
 
 
 def run_migrations_online():
-    """Online migrations (kopplar mot DB och kör DDL)"""
+    app = create_app()
 
-    def process_revision_directives(context, revision, directives):
-        """Förhindra tomma autogenererade migrations"""
-        if getattr(config.cmd_opts, 'autogenerate', False):
-            script = directives[0]
-            if script.upgrade_ops.is_empty():
-                directives[:] = []
-                logger.info('No changes in schema detected.')
+    with app.app_context():
+        connectable = db.engine
 
-    conf_args = current_app.extensions['migrate'].configure_args
-    if conf_args.get("process_revision_directives") is None:
-        conf_args["process_revision_directives"] = process_revision_directives
+        with connectable.connect() as connection:
+            context.configure(
+                connection=connection,
+                target_metadata=db.metadata,
+                compare_type=True,
+            )
 
-    connectable = get_engine()
-    with connectable.connect() as connection:
-        context.configure(
-            connection=connection,
-            target_metadata=get_metadata(),
-            **conf_args
-        )
-        with context.begin_transaction():
-            context.run_migrations()
-
+            with context.begin_transaction():
+                context.run_migrations()
 
 # Huvudkontroll
 if context.is_offline_mode():
